@@ -15,9 +15,15 @@ public:
 
     int fillScreenRGBAngle(float red, float green, float blue);
     int testCallingAngle();
+    int makeAngleContextCurrent();
 
 private:
     GLuint LoadShader(GLenum type, const char *shaderSrc);
+
+    int initAngle();
+
+    EGLDisplay display;
+    EGLContext context;
 };
 
 #endif //PRISMANGLE_NATIVE_LIBRARY_H

@@ -10,7 +10,7 @@ Java_org_prismatic_kotlinangle_AngleNative_testCallingAngle(JNIEnv *env, jobject
     return result;
 }
 
-JNIEXPORT jlong JNICALL Java_org_prismatic_kotlinangle_AngleNative_createPrismAngle(
+extern "C" JNIEXPORT jlong JNICALL Java_org_prismatic_kotlinangle_AngleNative_createPrismAngle(
     JNIEnv *env, 
     jobject obj
     ) {
@@ -18,7 +18,7 @@ JNIEXPORT jlong JNICALL Java_org_prismatic_kotlinangle_AngleNative_createPrismAn
         return (jlong) ctx;
     }
 
-JNIEXPORT jlong JNICALL Java_org_prismatic_kotlinangle_AngleNative_fillScreenRGBAngle(
+extern "C" JNIEXPORT jlong JNICALL Java_org_prismatic_kotlinangle_AngleNative_fillScreenRGBAngle(
     JNIEnv *env, 
     jobject obj, 
     jlong native_ptr, 
@@ -30,3 +30,9 @@ JNIEXPORT jlong JNICALL Java_org_prismatic_kotlinangle_AngleNative_fillScreenRGB
         ctx->fillScreenRGBAngle(red, green, blue);
         return 0;
     }
+
+extern "C" JNIEXPORT jint JNICALL
+Java_org_prismatic_kotlinangle_AngleNative_makeAngleContextCurrent(JNIEnv* env, jobject obj, jlong native_ptr) {
+    auto* ctx = reinterpret_cast<PrismAngleLib*>(native_ptr);
+    return ctx->makeAngleContextCurrent();
+}

@@ -1,6 +1,8 @@
 package org.prismatic.angletest
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.MaterialTheme
@@ -20,7 +22,7 @@ fun App() {
 	MaterialTheme {
 		Box(Modifier.padding(50.dp)) {
 			val color = Color.Red
-			val emptyOpus = remember {
+			val opus = remember {
 				Opus {
 					VisualRender {
 						onRender {
@@ -29,7 +31,7 @@ fun App() {
 					}
 				}
 			}
-			OpusView(emptyOpus, Modifier.size(300.dp))
+			OpusView(opus, Modifier.fillMaxWidth().height(400.dp))
 		}
 	}
 }

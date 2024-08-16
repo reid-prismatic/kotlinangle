@@ -12,6 +12,11 @@ class AngleWrapperJvm: AngleWrapper {
 		return angleNative.fillScreenRGBAngle(contextPtr, red, green, blue)
 	}
 
+	override fun makeAngleContextCurrent(): Int {
+		return angleNative.makeAngleContextCurrent(contextPtr)
+	}
+
+
 }
 
 actual fun getAngleWrapper(): AngleWrapper = AngleWrapperJvm()

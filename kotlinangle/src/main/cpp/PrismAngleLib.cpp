@@ -3,12 +3,49 @@
 
 PrismAngleLib::PrismAngleLib() {
     printf("initialized PrismAngleLib");
+    initAngle();
 }
 
 
 int PrismAngleLib::fillScreenRGBAngle(float red, float green, float blue) {
     glClearColor(red, green, blue, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
+    return 0;
+}
+
+int PrismAngleLib::initAngle() {
+    display = eglGetDisplay(EGL_DEFAULT_DISPLAY);
+    eglInitialize(display, nullptr, nullptr);
+
+    // Configure EGL attributes for an OpenGL ES 3.0 context
+    EGLint attribs[] = {
+        EGL_RENDERABLE_TYPE, EGL_OPENGL_ES3_BIT,
+        EGL_RED_SIZE, 8,
+        EGL_GREEN_SIZE, 8,
+        EGL_BLUE_SIZE, 8,
+        EGL_ALPHA_SIZE, 8,
+        EGL_DEPTH_SIZE, 24,
+        EGL_STENCIL_SIZE, 8,
+        EGL_NONE
+    };
+
+    EGLConfig config;
+    EGLint numConfigs;
+    eglChooseConfig(display, attribs, &config, 1, &numConfigs);
+
+    EGLint contextAttribs[] = {
+        EGL_CONTEXT_CLIENT_VERSION, 3,
+        EGL_NONE
+    };
+
+    context = eglCreateContext(display, config, EGL_NO_CONTEXT, contextAttribs);
+    eglMakeCurrent(display, EGL_NO_SURFACE, EGL_NO_SURFACE, context);
+
+    return 0;
+}
+
+int PrismAngleLib::makeAngleContextCurrent() {
+    eglMakeCurrent(display, EGL_NO_SURFACE, EGL_NO_SURFACE, context);
     return 0;
 }
 

@@ -17,6 +17,9 @@ JNIEXPORT jlong JNICALL Java_org_prismatic_kotlinangle_AngleNative_createPrismAn
 JNIEXPORT jlong JNICALL Java_org_prismatic_kotlinangle_AngleNative_fillScreenRGBAngle
   (JNIEnv *, jobject, jlong, jfloat, jfloat, jfloat);
 
+JNIEXPORT jint JNICALL Java_org_prismatic_kotlinangle_AngleNative_makeAngleContextCurrent
+  (JNIEnv * , jobject, jlong);
+
 #ifdef __cplusplus
 }
 #endif

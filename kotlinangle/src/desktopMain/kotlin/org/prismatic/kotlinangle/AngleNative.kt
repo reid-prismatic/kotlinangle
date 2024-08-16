@@ -22,4 +22,5 @@ class AngleNative {
 	external fun createPrismAngle(): Long
 	external fun fillScreenRGBAngle(nativePtr: Long, red: Float, green: Float, blue: Float): Int
 	external fun testCallingAngle(): Int
+	external fun makeAngleContextCurrent(nativePtr: Long): Int
 }
