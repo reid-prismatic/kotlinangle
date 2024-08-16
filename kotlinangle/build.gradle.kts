@@ -118,6 +118,18 @@ android {
     }
 }
 
+tasks.register<Copy>("copyDylib") {
+    from("src/main/cpp/jniLibs/macOS") {
+    //from("src/desktopMain/resources") {
+        include("*.dylib")
+    }
+    into("build/libs")
+}
+
+tasks.named("desktopJar") {
+    dependsOn("copyDylib")
+}
+
 compose.desktop {
     application {
         mainClass = "org.prismatic.kotlinangle.MainKt"

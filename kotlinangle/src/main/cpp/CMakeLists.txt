@@ -6,33 +6,68 @@
 # Sets the minimum CMake version required for this project.
 cmake_minimum_required(VERSION 3.22.1)
 
-# Declares the project name. The project name can be accessed via ${ PROJECT_NAME},
-# Since this is the top level CMakeLists.txt, the project name is also accessible
-# with ${CMAKE_PROJECT_NAME} (both CMake variables are in-sync within the top level
-# build script scope).
-project("kotlinangle")
+project(PrismAngleLibrary)
 
-# Creates and names a library, sets it as either STATIC
-# or SHARED, and provides the relative paths to its source code.
-# You can define multiple libraries, and CMake builds them for you.
-# Gradle automatically packages shared libraries with your APK.
-#
-# In this top level CMakeLists.txt, ${CMAKE_PROJECT_NAME} is used to define
-# the target library name; in the sub-module's CMakeLists.txt, ${PROJECT_NAME}
-# is preferred for the same purpose.
-#
-# In order to load a library into your app from Java/Kotlin, you must call
-# System.loadLibrary() and pass the name of the library defined here;
-# for GameActivity/NativeActivity derived applications, the same library name must be
-# used in the AndroidManifest.xml file.
-add_library(${CMAKE_PROJECT_NAME} SHARED
-    # List C/C++ source files with relative paths to this CMakeLists.txt.
-    kotlinangle.cpp)
-#
-# Specifies libraries CMake should link to your target library. You
-# can link libraries from various origins, such as libraries defined in this
-# build script, prebuilt third-party libraries, or Android system libraries.
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED True)
+set(source_dir ${CMAKE_CURRENT_SOURCE_DIR})
+
+find_package(Java REQUIRED)
+find_package(JNI REQUIRED)
+
+# Common include directories
+include_directories(
+    ${source_dir}
+    ${source_dir}/jni
+    ${source_dir}/include
+    ${source_dir}/include/EGL
+    ${source_dir}/include/GLES2
+    ${CMAKE_SOURCE_DIR}/src/main/cpp
+    ${JNI_INCLUDE_DIRS}
+)
+
+# macOS
+if(${CMAKE_SYSTEM_NAME} STREQUAL "Darwin")
+    include_directories(${JNI_INCLUDE_DIRS}/darwin)
+    file(GLOB LIBRARIES "${source_dir}/jniLibs/macOS/*.dylib")
+
+# Windows
+elseif(${CMAKE_SYSTEM_NAME} STREQUAL "Windows")
+    include_directories(${JNI_INCLUDE_DIRS}/win32)
+    file(GLOB LIBRARIES "${source_dir}/jniLibs/windows/*.dll")
+
+# Linux
+elseif(${CMAKE_SYSTEM_NAME} STREQUAL "Linux")
+    file(GLOB LIBRARIES "${source_dir}/jniLibs/linux/*.so")
+
+# Android
+elseif(${CMAKE_SYSTEM_NAME} STREQUAL "Android")
+    file(GLOB LIBRARIES "${source_dir}/jniLibs/android/*.so")
+
+# iOS
+elseif(${CMAKE_SYSTEM_NAME} STREQUAL "iOS")
+    file(GLOB LIBRARIES "${source_dir}/jniLibs/ios/*.dylib")
+endif()
+
+# Common source files
+file(GLOB SOURCES "${source_dir}/*.cpp")
+file(GLOB JNI_NATIVE_SOURCES "${source_dir}/jni/*.cpp")
+
+# Define the library
+add_library(${CMAKE_PROJECT_NAME} SHARED 
+    ${JNI_NATIVE_SOURCES}
+    ${SOURCES}    
+)
+
+# Link libraries
 target_link_libraries(${CMAKE_PROJECT_NAME}
-    # List libraries link to the target library
-    android
-    log)
+    ${LIBRARIES}
+    # ${EGL_LIBRARY}
+    # ${GLESV2_LIBRARY}
+)
+
+# Set target properties
+set_target_properties(PrismAngleLibrary PROPERTIES
+    BUILD_WITH_INSTALL_RPATH TRUE
+    INSTALL_RPATH "@loader_path"
+)
