@@ -68,6 +68,8 @@ kotlin {
             implementation(libs.androidx.lifecycle.runtime.compose)
             implementation(projects.sample.shared)
             implementation(project(":kotlinangle"))
+            implementation(libs.prismatic.opus)
+            implementation(libs.prismatic.opusmath)
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)

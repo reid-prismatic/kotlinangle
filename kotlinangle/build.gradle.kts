@@ -84,11 +84,11 @@ android {
 
     defaultConfig {
         minSdk = libs.versions.android.minSdk.get().toInt()
-        externalNativeBuild {
-            cmake {
-                cppFlags += ""
-            }
-        }
+//        externalNativeBuild {
+//            cmake {
+//                cppFlags += ""
+//            }
+//        }
     }
     packaging {
         resources {
@@ -107,12 +107,12 @@ android {
     buildFeatures {
         compose = true
     }
-    externalNativeBuild {
-        cmake {
-            path = file("src/main/cpp/CMakeLists.txt")
-            version = "3.22.1"
-        }
-    }
+//    externalNativeBuild {
+//        cmake {
+//            path = file("src/main/cpp/CMakeLists.txt")
+//            version = "3.22.1"
+//        }
+//    }
     dependencies {
         debugImplementation(compose.uiTooling)
     }

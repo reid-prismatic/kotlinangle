@@ -25,6 +25,21 @@ dependencyResolutionManagement {
             }
         }
         mavenCentral()
+        maven("https://jogamp.org/deployment/maven") // For JOGL
+        maven {
+            url = uri("https://maven.pkg.github.com/theprismaticcompany/opus-math")
+            credentials {
+                username = settings.extra.properties["gpr.user"] as String? ?: System.getenv("USERNAME")
+                password = settings.extra.properties["gpr.key"] as String? ?: System.getenv("TOKEN")
+            }
+        }
+        maven {
+            url = uri("https://maven.pkg.github.com/theprismaticcompany/opus")
+            credentials {
+                username = settings.extra.properties["gpr.user"] as String? ?: System.getenv("USERNAME")
+                password = settings.extra.properties["gpr.key"] as String? ?: System.getenv("TOKEN")
+            }
+        }
     }
 }
 

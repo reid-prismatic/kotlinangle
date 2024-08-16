@@ -18,6 +18,11 @@ kotlinx-coroutines = "1.8.1"
 ktor = "2.3.12"
 logback = "1.5.6"
 
+#Prismatic Dependency Versions
+prismatic-mokpan = "0.0.5"
+prismatic-opus = "0.0.2"
+prismatic-opusmath = "0.0.6"
+
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 kotlin-test-junit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
@@ -36,6 +41,11 @@ logback = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
 ktor-server-core = { module = "io.ktor:ktor-server-core-jvm", version.ref = "ktor" }
 ktor-server-netty = { module = "io.ktor:ktor-server-netty-jvm", version.ref = "ktor" }
 ktor-server-tests = { module = "io.ktor:ktor-server-tests-jvm", version.ref = "ktor" }
+
+# Prismatic dependencies
+prismatic-mokpan = { module = "org.prismatic.mokpan:mokpan", version.ref = "prismatic-mokpan" }
+prismatic-opus = { module = "org.prismatic.opus:opus", version.ref = "prismatic-opus" }
+prismatic-opusmath = { module = "org.prismatic.opus.math:opusmath", version.ref = "prismatic-opusmath" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
