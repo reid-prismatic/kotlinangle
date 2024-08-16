@@ -120,7 +120,9 @@ android {
 
 tasks.register<Copy>("copyDylib") {
     from("src/main/cpp/jniLibs/macOS") {
-    //from("src/desktopMain/resources") {
+        include("*.dylib")
+    }
+    from("src/main/cpp/generated/macOS") {
         include("*.dylib")
     }
     into("build/libs")

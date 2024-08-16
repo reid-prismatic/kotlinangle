@@ -9,6 +9,6 @@ cmake ..
 make
 
 echo
-cp libPrismAngleLibrary.dylib ../../resources
+cp libPrismAngleLibrary.dylib ../generated/macOS
 echo "libPrismAngleLibrary.dylib was copied to resources folder"
 echo "[done]"

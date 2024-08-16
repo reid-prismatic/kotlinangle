@@ -25,14 +25,13 @@ fun App() {
         val angle = remember { getAngleWrapper() }
         Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
             Button(onClick = { showContent = !showContent }) {
-                Text("Click me!")
+                Text("Click me! (${angle.callAngleApiTest()})")
             }
             AnimatedVisibility(showContent) {
                 val greeting = remember { Greeting().greet() }
                 Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
                     Image(painterResource(Res.drawable.compose_multiplatform), null)
                     Text("Compose: $greeting")
-                    Text("${angle.callAngleApiTest()}")
                 }
             }
         }
