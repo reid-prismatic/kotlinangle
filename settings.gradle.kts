@@ -1,4 +1,4 @@
-rootProject.name = "KotlinAngleLibrary"
+rootProject.name = "KotlinAngle"
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 pluginManagement {

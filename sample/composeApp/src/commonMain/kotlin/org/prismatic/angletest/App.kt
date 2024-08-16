@@ -1,4 +1,4 @@
-package org.prismatic.kotlinangle
+package org.prismatic.angletest
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
@@ -10,10 +10,11 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import kotlinanglelibrary.sample.composeapp.generated.resources.Res
-import kotlinanglelibrary.sample.composeapp.generated.resources.compose_multiplatform
+import kotlinangle.sample.composeapp.generated.resources.Res
+import kotlinangle.sample.composeapp.generated.resources.compose_multiplatform
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import org.prismatic.kotlinangle.Greeting
 
 @Composable
 @Preview

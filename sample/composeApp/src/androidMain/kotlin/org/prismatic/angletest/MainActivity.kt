@@ -1,4 +1,4 @@
-package org.prismatic.kotlinangle
+package org.prismatic.angletest
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
