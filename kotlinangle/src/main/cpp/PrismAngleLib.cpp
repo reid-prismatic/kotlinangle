@@ -1,9 +1,15 @@
 #include <iostream>
 #include "PrismAngleLib.h"
 
-PrismAngleLib::PrismAngleLib() {
+PrismAngleLib::PrismAngleLib() {    
+    initAngle();    
     printf("initialized PrismAngleLib");
-    initAngle();
+}
+
+PrismAngleLib::~PrismAngleLib() {
+    eglDestroySurface(display, surface);
+    eglDestroyContext(display, context);
+    eglTerminate(display);
 }
 
 
@@ -14,32 +20,66 @@ int PrismAngleLib::fillScreenRGBAngle(float red, float green, float blue) {
 }
 
 int PrismAngleLib::initAngle() {
+    // Initialize EGL
     display = eglGetDisplay(EGL_DEFAULT_DISPLAY);
-    eglInitialize(display, nullptr, nullptr);
+    if (display == EGL_NO_DISPLAY) {
+        std::cerr << "Unable to open connection to local windowing system" << std::endl;
+        return -1;
+    }
 
-    // Configure EGL attributes for an OpenGL ES 3.0 context
-    EGLint attribs[] = {
-        EGL_RENDERABLE_TYPE, EGL_OPENGL_ES3_BIT,
-        EGL_RED_SIZE, 8,
-        EGL_GREEN_SIZE, 8,
-        EGL_BLUE_SIZE, 8,
-        EGL_ALPHA_SIZE, 8,
-        EGL_DEPTH_SIZE, 24,
-        EGL_STENCIL_SIZE, 8,
+    if (!eglInitialize(display, NULL, NULL)) {
+        std::cerr << "Unable to initialize EGL" << std::endl;
+        return -1;
+    }
+
+    // Set EGL configuration
+    EGLint configAttribs[] = {
+        EGL_SURFACE_TYPE, EGL_PBUFFER_BIT,
+        EGL_RENDERABLE_TYPE, EGL_OPENGL_ES2_BIT,
         EGL_NONE
     };
-
     EGLConfig config;
     EGLint numConfigs;
-    eglChooseConfig(display, attribs, &config, 1, &numConfigs);
+    if (!eglChooseConfig(display, configAttribs, &config, 1, &numConfigs)) {
+        std::cerr << "Failed to choose config" << std::endl;
+        return -1;
+    }
 
+    // Create a surface
+    EGLint surfaceAttribs[] = {
+        EGL_WIDTH, 128,
+        EGL_HEIGHT, 128,
+        EGL_NONE
+    };
+    EGLSurface surface = eglCreatePbufferSurface(display, config, surfaceAttribs);
+    if (surface == EGL_NO_SURFACE) {
+        std::cerr << "Unable to create EGL surface" << std::endl;
+        return -1;
+    }
+
+    // Bind OpenGL ES API
+    if (!eglBindAPI(EGL_OPENGL_ES_API)) {
+        std::cerr << "Failed to bind OpenGL ES API" << std::endl;
+        return -1;
+    }
+
+    // Create a context
     EGLint contextAttribs[] = {
-        EGL_CONTEXT_CLIENT_VERSION, 3,
+        EGL_CONTEXT_CLIENT_VERSION, 2,
         EGL_NONE
     };
 
     context = eglCreateContext(display, config, EGL_NO_CONTEXT, contextAttribs);
-    eglMakeCurrent(display, EGL_NO_SURFACE, EGL_NO_SURFACE, context);
+    if (context == EGL_NO_CONTEXT) {
+        std::cerr << "Unable to create EGL context" << std::endl;
+        return -1;
+    }
+
+    // Make the context current
+    if (!eglMakeCurrent(display, surface, surface, context)) {
+        std::cerr << "Unable to make EGL context current" << std::endl;
+        return -1;
+    }
 
     return 0;
 }

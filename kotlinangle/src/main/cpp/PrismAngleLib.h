@@ -11,7 +11,7 @@
 class PrismAngleLib {
 public:
     explicit PrismAngleLib();
-    virtual ~PrismAngleLib() = default;
+    virtual ~PrismAngleLib();
 
     int fillScreenRGBAngle(float red, float green, float blue);
     int testCallingAngle();
@@ -24,6 +24,7 @@ private:
 
     EGLDisplay display;
     EGLContext context;
+    EGLSurface surface;
 };
 
 #endif //PRISMANGLE_NATIVE_LIBRARY_H

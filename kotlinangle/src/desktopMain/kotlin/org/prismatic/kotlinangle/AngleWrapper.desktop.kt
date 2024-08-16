@@ -8,7 +8,7 @@ class AngleWrapperJvm: AngleWrapper {
 		return angleNative.testCallingAngle()
 	}
 
-	override fun fillScreenRGBAngle(red: Float, green: Float, blue: Float): Int {
+	override fun fillScreenRGB(red: Float, green: Float, blue: Float): Int {
 		return angleNative.fillScreenRGBAngle(contextPtr, red, green, blue)
 	}
 
