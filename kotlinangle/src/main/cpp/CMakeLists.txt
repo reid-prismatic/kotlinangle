@@ -51,7 +51,7 @@ endif()
 
 # Common source files
 file(GLOB SOURCES "${source_dir}/*.cpp")
-file(GLOB JNI_NATIVE_SOURCES "${source_dir}/jni/*.cpp")
+file(GLOB JNI_NATIVE_SOURCES "${source_dir}/jni/*.cpp" "${source_dir}/jni/*.c")
 
 # Define the library
 add_library(${CMAKE_PROJECT_NAME} SHARED 

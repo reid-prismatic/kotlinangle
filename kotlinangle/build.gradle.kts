@@ -70,6 +70,8 @@ kotlin {
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
             implementation(libs.kotlinx.coroutines.swing)
+            implementation(files("libs/gluegen-rt.jar"))
+            implementation(files("libs/jogl-all.jar"))
         }
     }
 }
@@ -125,6 +127,10 @@ tasks.register<Copy>("copyDylib") {
     from("src/main/cpp/generated/macOS") {
         include("*.dylib")
     }
+
+    from("libs") {
+        include("*.jar")
+    }
     into("build/libs")
 }
 
@@ -141,5 +147,8 @@ compose.desktop {
             packageName = "org.prismatic.kotlinangle"
             packageVersion = "1.0.0"
         }
+    }
+    dependencies {
+        implementation(files("libs/gluegen-rt.jar"))
     }
 }
