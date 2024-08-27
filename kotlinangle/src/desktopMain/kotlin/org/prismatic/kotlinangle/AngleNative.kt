@@ -3,6 +3,8 @@ package org.prismatic.kotlinangle
 import com.jogamp.common.nio.Buffers
 import com.jogamp.common.nio.PointerBuffer
 import java.io.File
+import java.nio.ByteBuffer
+
 //import java.nio.Buffer
 //import java.nio.ByteBuffer
 //import java.nio.FloatBuffer
@@ -1509,11 +1511,11 @@ object AngleNative: AngleWrapper {
 	override fun glGetString(name: Int): OpusByteBuffer? {
 		val _res = glGetString1(name) ?: return null
 		Buffers.nativeOrder(_res)
-		return _res
+		return OpusByteBuffer(_res)
 	}
 
 	/** Entry point to C language function: `const GLubyte *  glGetString(GLenum name)`<br></br>    */
-	private external fun glGetString1(name: Int): OpusByteBuffer?
+	private external fun glGetString1(name: Int): ByteBuffer?
 
 	/** Interface to C language function: <br></br> `void glGetTexParameterfv(GLenum target, GLenum pname, GLfloat *  params)`<br></br>
 	 * @param params a direct or array-backed [java.nio.FloatBuffer]
