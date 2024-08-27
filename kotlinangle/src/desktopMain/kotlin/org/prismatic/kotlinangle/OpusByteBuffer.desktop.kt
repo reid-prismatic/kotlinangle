@@ -1,6 +1,8 @@
 package org.prismatic.kotlinangle
 
-actual class OpusByteBuffer(private val byteBuffer: java.nio.ByteBuffer) : OpusBuffer(byteBuffer) {
+import java.nio.ByteBuffer
+
+actual class OpusByteBuffer(private val byteBuffer: ByteBuffer) : OpusBuffer(byteBuffer) {
 	actual fun put(byte: Byte): OpusByteBuffer {
 		byteBuffer.put(byte)
 		return this
@@ -17,4 +19,7 @@ actual class OpusByteBuffer(private val byteBuffer: java.nio.ByteBuffer) : OpusB
 			return OpusByteBuffer(java.nio.ByteBuffer.allocate(capacity))
 		}
 	}
+
+	override val buf: ByteBuffer
+		get() = byteBuffer
 }

@@ -1,6 +1,8 @@
 package org.prismatic.kotlinangle
 
-actual open class OpusBuffer(private val buffer: java.nio.Buffer) {
+import java.nio.Buffer
+
+actual open class OpusBuffer(private val buffer: Buffer) {
 	actual fun capacity(): Int = buffer.capacity()
 	actual fun position(): Int = buffer.position()
 	actual fun limit(): Int = buffer.limit()
@@ -16,4 +18,7 @@ actual open class OpusBuffer(private val buffer: java.nio.Buffer) {
 		buffer.rewind()
 		return this
 	}
+
+	open val buf: Buffer
+		get() = buffer
 }

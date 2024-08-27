@@ -1,6 +1,8 @@
 package org.prismatic.kotlinangle
 
-actual class OpusFloatBuffer(private val floatBuffer: java.nio.FloatBuffer) : OpusBuffer(floatBuffer) {
+import java.nio.FloatBuffer
+
+actual class OpusFloatBuffer(private val floatBuffer: FloatBuffer) : OpusBuffer(floatBuffer) {
 	actual fun put(float: Float): OpusFloatBuffer {
 		floatBuffer.put(float)
 		return this
@@ -17,4 +19,7 @@ actual class OpusFloatBuffer(private val floatBuffer: java.nio.FloatBuffer) : Op
 			return OpusFloatBuffer(java.nio.FloatBuffer.allocate(capacity))
 		}
 	}
+
+	override val buf: FloatBuffer
+		get() = floatBuffer
 }
