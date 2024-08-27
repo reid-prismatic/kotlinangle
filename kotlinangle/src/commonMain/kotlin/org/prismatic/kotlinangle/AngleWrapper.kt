@@ -1370,6 +1370,9 @@ interface AngleWrapper {
 
 		/** Define "GL_DEPTH_COMPONENT16" with expression '`0x81A5`', CType: int  */
 		const val GL_DEPTH_COMPONENT16: Int = 0x81a5
+
+		// This value wasn't a part of GL2
+		const val GL_BGRA: Int = 0x80E1
 	}
 }
 

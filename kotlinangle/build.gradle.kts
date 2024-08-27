@@ -69,6 +69,7 @@ kotlin {
             implementation(libs.androidx.lifecycle.runtime.compose)
             implementation(libs.kotlinx.io.core)
             api(libs.kotlinx.serialization.json)
+            implementation(libs.kotlinx.coroutines.core)
             implementation("org.jetbrains.kotlinx:kotlinx-io-core:0.5.2")
             implementation("org.jetbrains.kotlinx:kotlinx-collections-immutable:0.3.7")
             api("org.prismatic.opus.math:opusmath:0.0.12")

@@ -2809,6 +2809,7 @@ object AngleNative: AngleWrapper {
 		stride: Int,
 		pointer: OpusBuffer
 	) {
+		
 		val pointer_is_direct: Boolean = Buffers.isDirect(pointer.buf)
 		glVertexAttribPointer1(
 			index,

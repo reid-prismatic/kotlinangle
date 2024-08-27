@@ -13,12 +13,8 @@ import androidx.compose.ui.text.font.createFontFamilyResolver
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.LayoutDirection
 import org.prismatic.kotlinangle.AngleWrapper
-//import com.jogamp.opengl.GL4
+import org.prismatic.kotlinangle.OpusBuffer.OpusIntBuffer
 import org.prismatic.kotlinangle.opuscopy.MediaTime
-import org.prismatic.kotlinangle.opuscopy.impl.GLBufferName
-import org.prismatic.kotlinangle.opuscopy.impl.GLTextureName
-import org.prismatic.kotlinangle.opuscopy.impl.glBindBuffer
-import org.prismatic.kotlinangle.opuscopy.impl.glBindTexture
 import org.prismatic.kotlinangle.opuscopy.renderer.PlatformVisualRenderContext
 import org.prismatic.opus.math.Mat4x4
 import org.prismatic.kotlinangle.opuscopy.renderer.Mesh
@@ -26,13 +22,14 @@ import org.prismatic.kotlinangle.opuscopy.renderer.OpusMesh
 import org.prismatic.kotlinangle.opuscopy.renderer.OpusTexture
 import org.prismatic.kotlinangle.opuscopy.renderer.check
 
-internal interface DesktopVisualRenderContext : PlatformVisualRenderContext {
+typealias GLVER = AngleWrapper
+
+internal interface CommonVisualRenderContext : PlatformVisualRenderContext {
     fun dispose()
     override var playheadTime: MediaTime
 }
 
-internal fun makeVisualRenderContext(gl: GLVER) = with(gl){object : DesktopVisualRenderContext {
-
+internal fun makeVisualRenderContext(gl: GLVER) = with(gl){ object : CommonVisualRenderContext {
     private var vbo: GLBufferName = GLBufferName.NONE
     private var texVbo: GLBufferName = GLBufferName.NONE
     private var quadVbo: GLBufferName = GLBufferName.NONE
@@ -82,8 +79,8 @@ internal fun makeVisualRenderContext(gl: GLVER) = with(gl){object : DesktopVisua
             vertexShaderResourceId = "mesh_vertex",
             fragmentShaderResourceId = "mesh_fragment"
         )
-        textured3DShader_transform = glGetUniformLocation(textured3DShader,"transform")
-        textured3DShader_texture = glGetUniformLocation(textured3DShader,"textureSampler")
+        textured3DShader_transform = glGetUniformLocation(textured3DShader,stringToOpusByteBuffer("transform"))
+        textured3DShader_texture = glGetUniformLocation(textured3DShader,stringToOpusByteBuffer("textureSampler"))
     }
 
     override fun dispose() {
@@ -93,7 +90,7 @@ internal fun makeVisualRenderContext(gl: GLVER) = with(gl){object : DesktopVisua
 
     override fun fillScreenRGB(red: Float, green: Float, blue: Float) {
         glClearColor(red, green, blue, 1f)
-        glClear(GL4.GL_COLOR_BUFFER_BIT)
+        glClear(AngleWrapper.GL_COLOR_BUFFER_BIT)
     }
 
     override fun createTexture(imageBitmap: ImageBitmap): OpusTexture {
@@ -101,19 +98,19 @@ internal fun makeVisualRenderContext(gl: GLVER) = with(gl){object : DesktopVisua
 
         val pixmap = imageBitmap.toPixelMap()
 
-        glBindTexture(GL4.GL_TEXTURE_2D,texName)
-        glTexParameteri(GL4.GL_TEXTURE_2D, GL4.GL_TEXTURE_WRAP_S, GL4.GL_CLAMP_TO_EDGE)
-        glTexParameteri(GL4.GL_TEXTURE_2D, GL4.GL_TEXTURE_WRAP_T, GL4.GL_CLAMP_TO_EDGE)
-        glTexParameteri(GL4.GL_TEXTURE_2D, GL4.GL_TEXTURE_MIN_FILTER, GL4.GL_LINEAR)
-        glTexParameteri(GL4.GL_TEXTURE_2D, GL4.GL_TEXTURE_MAG_FILTER, GL4.GL_LINEAR)
+        glBindTexture(AngleWrapper.GL_TEXTURE_2D,texName)
+        glTexParameteri(AngleWrapper.GL_TEXTURE_2D, AngleWrapper.GL_TEXTURE_WRAP_S, AngleWrapper.GL_CLAMP_TO_EDGE)
+        glTexParameteri(AngleWrapper.GL_TEXTURE_2D, AngleWrapper.GL_TEXTURE_WRAP_T, AngleWrapper.GL_CLAMP_TO_EDGE)
+        glTexParameteri(AngleWrapper.GL_TEXTURE_2D, AngleWrapper.GL_TEXTURE_MIN_FILTER, AngleWrapper.GL_LINEAR)
+        glTexParameteri(AngleWrapper.GL_TEXTURE_2D, AngleWrapper.GL_TEXTURE_MAG_FILTER, AngleWrapper.GL_LINEAR)
         glTexImage2D(
-            GL4.GL_TEXTURE_2D, 0,
-            GL4.GL_RGBA, pixmap.width, pixmap.height, 0,
-            GL4.GL_BGRA,
-            GL4.GL_UNSIGNED_BYTE, IntBuffer.wrap(pixmap.buffer))
-        glBindTexture(GL4.GL_TEXTURE_2D,0)
+            AngleWrapper.GL_TEXTURE_2D, 0,
+            AngleWrapper.GL_RGBA, pixmap.width, pixmap.height, 0,
+            AngleWrapper.GL_BGRA,
+            AngleWrapper.GL_UNSIGNED_BYTE, OpusIntBuffer.wrap(pixmap.buffer))
+        glBindTexture(AngleWrapper.GL_TEXTURE_2D,0)
 
-        return DesktopOpusTexture(
+        return CommonOpusTexture(
             name = texName,
             width = imageBitmap.width,
             height = imageBitmap.height
@@ -121,71 +118,71 @@ internal fun makeVisualRenderContext(gl: GLVER) = with(gl){object : DesktopVisua
     }
 
     override fun deleteTexture(texture: OpusTexture) {
-        if (texture !is DesktopOpusTexture) return
+        if (texture !is CommonOpusTexture) return
         val name = texture.name ?: return
         glDeleteTexture(name)
         texture.name = null
     }
 
-    override fun loadMesh(mesh: Mesh): OpusMesh = DesktopOpusMesh(
+    override fun loadMesh(mesh: Mesh): OpusMesh = CommonOpusMesh(
         primitiveType = when(mesh.primitiveType) {
-            Mesh.PrimitiveType.Triangles -> GL4.GL_TRIANGLES
-            Mesh.PrimitiveType.TriangleStrip -> GL4.GL_TRIANGLE_STRIP
+            Mesh.PrimitiveType.Triangles -> AngleWrapper.GL_TRIANGLES
+            Mesh.PrimitiveType.TriangleStrip -> AngleWrapper.GL_TRIANGLE_STRIP
         },
         vertexCount = mesh.vertexCount,
         stride = mesh.stride,
         attributes = mesh.attributes,
-        attributeBuffer = makeBuffer(GL4.GL_ARRAY_BUFFER, GL4.GL_STATIC_DRAW, mesh.attributeData),
+        attributeBuffer = makeBuffer(AngleWrapper.GL_ARRAY_BUFFER, AngleWrapper.GL_STATIC_DRAW, mesh.attributeData),
         elementBuffer = mesh.elementData?.let { makeBuffer(
-            GL4.GL_ELEMENT_ARRAY_BUFFER,
-            GL4.GL_STATIC_DRAW, it) })
+            AngleWrapper.GL_ELEMENT_ARRAY_BUFFER,
+            AngleWrapper.GL_STATIC_DRAW, it) })
 
     override fun deleteMesh(mesh: OpusMesh) {
-        mesh as DesktopOpusMesh
+        mesh as CommonOpusMesh
         glDeleteBuffer(mesh.attributeBuffer)
         mesh.elementBuffer?.let { glDeleteBuffer(it) }
     }
 
     override fun drawTexturedMesh(mesh: OpusMesh, texture: OpusTexture, transform: Mat4x4) {
-        mesh as DesktopOpusMesh
-        texture as DesktopOpusTexture
+        mesh as CommonOpusMesh
+        texture as CommonOpusTexture
 
         if( !mesh.attributes.check { POSITION.matches(FLOAT,3) && TEXCOORD.optionallyMatches(FLOAT,2) } )
             return
 
         glUseProgram(textured3DShader)
 
-        glBlendFunc(GL4.GL_SRC_ALPHA, GL4.GL_ONE_MINUS_SRC_ALPHA);
-        glEnable(GL4.GL_BLEND);
-        glBindBuffer(GL4.GL_ARRAY_BUFFER,mesh.attributeBuffer)
+        glBlendFunc(AngleWrapper.GL_SRC_ALPHA, AngleWrapper.GL_ONE_MINUS_SRC_ALPHA);
+        glEnable(AngleWrapper.GL_BLEND);
+        glBindBuffer(AngleWrapper.GL_ARRAY_BUFFER,mesh.attributeBuffer)
         mesh.vertexAttribPointer(0, Mesh.Attr.POSITION)
         mesh.vertexAttribPointer(1, Mesh.Attr.TEXCOORD)
 
         transform.copyTo(scratchMatrix)
-        glUniformMatrix4fv(textured3DShader_transform, 1, false, scratchMatrix, 0)
-        glActiveTexture(GL4.GL_TEXTURE0)
-        glBindTexture(GL4.GL_TEXTURE_2D, texture.name!!) // TODO: Use a fallback texture
+        glUniformMatrix4fv(textured3DShader_transform, 1, 0, scratchMatrix, 0)
+        glActiveTexture(AngleWrapper.GL_TEXTURE0)
+        glBindTexture(AngleWrapper.GL_TEXTURE_2D, texture.name!!) // TODO: Use a fallback texture
         glUniform1i(textured3DShader_texture, 0);
         if( mesh.elementBuffer!=null ) {
-            glBindBuffer(GL4.GL_ELEMENT_ARRAY_BUFFER,mesh.elementBuffer)
-            glDrawElements(mesh.primitiveType, mesh.vertexCount, GL4.GL_UNSIGNED_INT, 0L)
-            glBindBuffer(GL4.GL_ELEMENT_ARRAY_BUFFER,0)
+            glBindBuffer(AngleWrapper.GL_ELEMENT_ARRAY_BUFFER,mesh.elementBuffer)
+            //glDrawElements(mesh.primitiveType, mesh.vertexCount, AngleWrapper.GL_UNSIGNED_INT, 0L)
+            glBindBuffer(AngleWrapper.GL_ELEMENT_ARRAY_BUFFER,0)
         } else {
             glDrawArrays(mesh.primitiveType, 0, mesh.vertexCount)
         }
         checkGLErrors()
-        glBindBuffer(GL4.GL_ARRAY_BUFFER,0)
-        glBindTexture(GL4.GL_TEXTURE_2D,0)
+        glBindBuffer(AngleWrapper.GL_ARRAY_BUFFER,0)
+        glBindTexture(AngleWrapper.GL_TEXTURE_2D,0)
 
     }
 
-    private fun DesktopOpusMesh.vertexAttribPointer(index: Int, tag: Mesh.Attr.Tag) {
+    private fun CommonOpusMesh.vertexAttribPointer(index: Int, tag: Mesh.Attr.Tag) {
         val attr = attributes[tag]
         if( attr == null ) {
             glDisableVertexAttribArray(index)
         } else {
             glEnableVertexAttribArray(index)
-            glVertexAttribPointer(index,attr.size,attr.type.glType, false, stride, attr.offset.toLong())
+            //glVertexAttribPointer(index,attr.size,attr.type.glType, 0, stride, attr.offset.toLong())
         }
     }
 
@@ -196,7 +193,7 @@ internal fun makeVisualRenderContext(gl: GLVER) = with(gl){object : DesktopVisua
         right: Float,
         bottom: Float
     ) {
-        val texName = (texture as? DesktopOpusTexture)?.name ?: return
+        val texName = (texture as? CommonOpusTexture)?.name ?: return
 
         // TODO: It's very inefficient making a new buffer every time; we should make a full-screen one and adjust it with uniform parameters or something
         val buf = makeArrayBuffer(
@@ -206,26 +203,26 @@ internal fun makeVisualRenderContext(gl: GLVER) = with(gl){object : DesktopVisua
             right, top, 1f, 0f,
         )
 
-        glBlendFunc(GL4.GL_SRC_ALPHA, GL4.GL_ONE_MINUS_SRC_ALPHA);
-        glEnable(GL4.GL_BLEND);
+        glBlendFunc(AngleWrapper.GL_SRC_ALPHA, AngleWrapper.GL_ONE_MINUS_SRC_ALPHA);
+        glEnable(AngleWrapper.GL_BLEND);
 
-        glBindBuffer(GL4.GL_ARRAY_BUFFER,buf)
+        glBindBuffer(AngleWrapper.GL_ARRAY_BUFFER,buf)
         checkGLErrors()
         glEnableVertexAttribArray(0)
         glEnableVertexAttribArray(1)
         checkGLErrors()
-        glVertexAttribPointer(0,2, GL4.GL_FLOAT, false, 4*Float.SIZE_BYTES, 0)
-        glVertexAttribPointer(1,2, GL4.GL_FLOAT, false, 4*Float.SIZE_BYTES, 2L*Float.SIZE_BYTES)
+        //glVertexAttribPointer(0,2, AngleWrapper.GL_FLOAT, 0, 4*Float.SIZE_BYTES, 0)
+        //glVertexAttribPointer(1,2, AngleWrapper.GL_FLOAT, 0, 4*Float.SIZE_BYTES, 2L*Float.SIZE_BYTES)
         checkGLErrors()
         glUseProgram(testTexProgram)
-        glActiveTexture(GL4.GL_TEXTURE0)
-        glBindTexture(GL4.GL_TEXTURE_2D, texName)
+        glActiveTexture(AngleWrapper.GL_TEXTURE0)
+        glBindTexture(AngleWrapper.GL_TEXTURE_2D, texName)
         checkGLErrors()
-        glDrawArrays(GL4.GL_TRIANGLE_STRIP,0,4)
+        glDrawArrays(AngleWrapper.GL_TRIANGLE_STRIP,0,4)
         checkGLErrors()
-        glBindBuffer(GL4.GL_ARRAY_BUFFER,0)
+        glBindBuffer(AngleWrapper.GL_ARRAY_BUFFER,0)
 
-        glBindTexture(GL4.GL_TEXTURE_2D,0)
+        glBindTexture(AngleWrapper.GL_TEXTURE_2D,0)
         glDeleteBuffer(buf)
     }
 
@@ -244,36 +241,36 @@ internal fun makeVisualRenderContext(gl: GLVER) = with(gl){object : DesktopVisua
         scope.drawText(measureResult,style.color)
         val pixmap = ib.toPixelMap()
 
-        glBindTexture(GL4.GL_TEXTURE_2D,tex)
+        glBindTexture(AngleWrapper.GL_TEXTURE_2D,tex)
 //        glUniform1i(glGetUniformLocation(testTexProgram, "texture1"), 0);
-        glTexParameteri(GL4.GL_TEXTURE_2D, GL4.GL_TEXTURE_WRAP_S, GL4.GL_CLAMP_TO_EDGE)
-        glTexParameteri(GL4.GL_TEXTURE_2D, GL4.GL_TEXTURE_WRAP_T, GL4.GL_CLAMP_TO_EDGE)
-        glTexParameteri(GL4.GL_TEXTURE_2D, GL4.GL_TEXTURE_MIN_FILTER, GL4.GL_LINEAR)
-        glTexParameteri(GL4.GL_TEXTURE_2D, GL4.GL_TEXTURE_MAG_FILTER, GL4.GL_LINEAR)
+        glTexParameteri(AngleWrapper.GL_TEXTURE_2D, AngleWrapper.GL_TEXTURE_WRAP_S, AngleWrapper.GL_CLAMP_TO_EDGE)
+        glTexParameteri(AngleWrapper.GL_TEXTURE_2D, AngleWrapper.GL_TEXTURE_WRAP_T, AngleWrapper.GL_CLAMP_TO_EDGE)
+        glTexParameteri(AngleWrapper.GL_TEXTURE_2D, AngleWrapper.GL_TEXTURE_MIN_FILTER, AngleWrapper.GL_LINEAR)
+        glTexParameteri(AngleWrapper.GL_TEXTURE_2D, AngleWrapper.GL_TEXTURE_MAG_FILTER, AngleWrapper.GL_LINEAR)
         glTexImage2D(
-            GL4.GL_TEXTURE_2D, 0,
-            GL4.GL_RGBA, pixmap.width, pixmap.height, 0,
-            GL4.GL_BGRA,
-            GL4.GL_UNSIGNED_BYTE, IntBuffer.wrap(pixmap.buffer))
+            AngleWrapper.GL_TEXTURE_2D, 0,
+            AngleWrapper.GL_RGBA, pixmap.width, pixmap.height, 0,
+            AngleWrapper.GL_BGRA,
+            AngleWrapper.GL_UNSIGNED_BYTE, OpusIntBuffer.wrap(pixmap.buffer))
 
 //        glGenerateMipmap(GL_TEXTURE_2D)
 
-        glBlendFunc(GL4.GL_SRC_ALPHA, GL4.GL_ONE_MINUS_SRC_ALPHA);
-        glEnable(GL4.GL_BLEND);
+        glBlendFunc(AngleWrapper.GL_SRC_ALPHA, AngleWrapper.GL_ONE_MINUS_SRC_ALPHA);
+        glEnable(AngleWrapper.GL_BLEND);
 
-        glBindBuffer(GL4.GL_ARRAY_BUFFER,texVbo)
+        glBindBuffer(AngleWrapper.GL_ARRAY_BUFFER,texVbo)
         checkGLErrors()
         glEnableVertexAttribArray(0)
         glEnableVertexAttribArray(1)
         checkGLErrors()
-        glVertexAttribPointer(0,2, GL4.GL_FLOAT, false, 4*Float.SIZE_BYTES, 0)
-        glVertexAttribPointer(1,2, GL4.GL_FLOAT, false, 4*Float.SIZE_BYTES, 2L*Float.SIZE_BYTES)
+        //glVertexAttribPointer(0,2, AngleWrapper.GL_FLOAT, 0, 4*Float.SIZE_BYTES, 0)
+        //glVertexAttribPointer(1,2, AngleWrapper.GL_FLOAT, 0, 4*Float.SIZE_BYTES, 2L*Float.SIZE_BYTES)
         checkGLErrors()
         glUseProgram(testTexProgram)
-        glActiveTexture(GL4.GL_TEXTURE0)
-        glBindTexture(GL4.GL_TEXTURE_2D,tex)
+        glActiveTexture(AngleWrapper.GL_TEXTURE0)
+        glBindTexture(AngleWrapper.GL_TEXTURE_2D,tex)
         checkGLErrors()
-        glDrawArrays(GL4.GL_TRIANGLE_STRIP,0,4)
+        glDrawArrays(AngleWrapper.GL_TRIANGLE_STRIP,0,4)
         checkGLErrors()
 
 //        glDeleteTexture(tex)
@@ -282,15 +279,15 @@ internal fun makeVisualRenderContext(gl: GLVER) = with(gl){object : DesktopVisua
     }
 
     override fun test() {
-        glBindBuffer(GL4.GL_ARRAY_BUFFER,vbo)
+        glBindBuffer(AngleWrapper.GL_ARRAY_BUFFER,vbo)
         checkGLErrors()
         glEnableVertexAttribArray(0)
         checkGLErrors()
-        glVertexAttribPointer(0,4, GL4.GL_FLOAT, false, 4*Float.SIZE_BYTES, 0)
+        //glVertexAttribPointer(0,4, AngleWrapper.GL_FLOAT, 0, 4*Float.SIZE_BYTES, 0)
         checkGLErrors()
         glUseProgram(testProgram)
         checkGLErrors()
-        glDrawArrays(GL4.GL_TRIANGLE_STRIP,0,3)
+        glDrawArrays(AngleWrapper.GL_TRIANGLE_STRIP,0,3)
         checkGLErrors()
     }
 
