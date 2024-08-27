@@ -17,6 +17,7 @@ kotlin = "2.0.0"
 kotlinx-coroutines = "1.8.1"
 kotlinxIoCore = "0.5.3"
 ktor = "2.3.12"
+kotlinxSerializationVersion = "1.7.0"
 logback = "1.5.6"
 
 #Prismatic Dependency Versions
@@ -43,6 +44,7 @@ logback = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
 ktor-server-core = { module = "io.ktor:ktor-server-core-jvm", version.ref = "ktor" }
 ktor-server-netty = { module = "io.ktor:ktor-server-netty-jvm", version.ref = "ktor" }
 ktor-server-tests = { module = "io.ktor:ktor-server-tests-jvm", version.ref = "ktor" }
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationVersion" }
 
 # Prismatic dependencies
 prismatic-mokpan = { module = "org.prismatic.mokpan:mokpan", version.ref = "prismatic-mokpan" }
@@ -56,4 +58,5 @@ jetbrainsCompose = { id = "org.jetbrains.compose", version.ref = "compose-plugin
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlinJvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 ktor = { id = "io.ktor.plugin", version.ref = "ktor" }
+kotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }

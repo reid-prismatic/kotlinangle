@@ -9,6 +9,7 @@ plugins {
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.jetbrainsCompose)
     alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.kotlinSerialization)
 }
 
 kotlin {
@@ -67,6 +68,9 @@ kotlin {
             implementation(libs.androidx.lifecycle.viewmodel)
             implementation(libs.androidx.lifecycle.runtime.compose)
             implementation(libs.kotlinx.io.core)
+            api(libs.kotlinx.serialization.json)
+            implementation("org.jetbrains.kotlinx:kotlinx-io-core:0.5.2")
+            implementation("org.jetbrains.kotlinx:kotlinx-collections-immutable:0.3.7")
             api("org.prismatic.opus.math:opusmath:0.0.12")
         }
         desktopMain.dependencies {
