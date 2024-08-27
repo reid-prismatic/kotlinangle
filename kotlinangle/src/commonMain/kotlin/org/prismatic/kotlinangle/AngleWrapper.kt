@@ -309,6 +309,7 @@ interface AngleWrapper {
 		length: Int
 	)
 //	fun glShaderSource(shader: Int, count: Int, string: PointerBuffer?, length: OpusIntBuffer?)
+	fun glShaderSource(shader: Int, count: Int, string: OpusByteBuffer?, length: OpusIntBuffer?)
 //	fun glShaderSource(
 //		shader: Int,
 //		count: Int,

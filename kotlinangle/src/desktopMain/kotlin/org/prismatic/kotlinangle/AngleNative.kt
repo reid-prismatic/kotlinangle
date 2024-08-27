@@ -1968,21 +1968,45 @@ object AngleNative: AngleWrapper {
 //			length_is_direct
 //		)
 //	}
-//
-//	/** Entry point to C language function: `void glShaderSource(GLuint shader, GLsizei count, const GLchar * const  *  string, const GLint *  length)`<br></br>
-//	 * @param string a direct or array-backed [com.jogamp.common.nio.PointerBuffer]
-//	 * @param length a direct or array-backed [java.nio.IntBuffer]
-//	 */
-//	private external fun glShaderSource1(
-//		shader: Int,
-//		count: Int,
-//		string: Any?,
-//		string_byte_offset: Int,
-//		string_is_direct: Boolean,
-//		length: Any?,
-//		length_byte_offset: Int,
-//		length_is_direct: Boolean
-//	)
+
+
+	// TODO: This function was temporarily modified. I'm not sure if it works correctly.
+	override fun glShaderSource(shader: Int, count: Int, string: OpusByteBuffer?, length: OpusIntBuffer?) {
+		val pointerString = PointerBuffer.wrap(string?.buf)
+		val string_is_direct: Boolean = Buffers.isDirect(pointerString)
+		val length_is_direct: Boolean = Buffers.isDirect(length?.buf)
+		glShaderSource1(
+			shader,
+			count,
+			if (string_is_direct) (if (pointerString != null) pointerString.buffer else null) else Buffers.getArray(
+				pointerString
+			),
+			if (string_is_direct) Buffers.getDirectBufferByteOffset(pointerString) else Buffers.getIndirectBufferByteOffset(
+				pointerString
+			),
+			string_is_direct,
+			if (length_is_direct) length?.buf else Buffers.getArray(length?.buf),
+			if (length_is_direct) Buffers.getDirectBufferByteOffset(length?.buf) else Buffers.getIndirectBufferByteOffset(
+				length?.buf
+			),
+			length_is_direct
+		)
+	}
+
+	/** Entry point to C language function: `void glShaderSource(GLuint shader, GLsizei count, const GLchar * const  *  string, const GLint *  length)`<br></br>
+	 * @param string a direct or array-backed [com.jogamp.common.nio.PointerBuffer]
+	 * @param length a direct or array-backed [java.nio.IntBuffer]
+	 */
+	private external fun glShaderSource1(
+		shader: Int,
+		count: Int,
+		string: Any?,
+		string_byte_offset: Int,
+		string_is_direct: Boolean,
+		length: Any?,
+		length_byte_offset: Int,
+		length_is_direct: Boolean
+	)
 
 //	/** Interface to C language function: <br></br> `void glShaderSource(GLuint shader, GLsizei count, const GLchar * const  *  string, const GLint *  length)`<br></br>
 //	 * @param string a direct or array-backed [com.jogamp.common.nio.PointerBuffer]
