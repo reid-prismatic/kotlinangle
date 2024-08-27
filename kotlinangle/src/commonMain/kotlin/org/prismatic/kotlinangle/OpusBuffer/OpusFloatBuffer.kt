@@ -1,4 +1,4 @@
-package org.prismatic.kotlinangle
+package org.prismatic.kotlinangle.OpusBuffer
 
 expect class OpusFloatBuffer : OpusBuffer {
 	fun put(float: Float): OpusFloatBuffer

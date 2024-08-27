@@ -1,4 +1,4 @@
-package org.prismatic.kotlinangle
+package org.prismatic.kotlinangle.OpusBuffer
 
 expect open class OpusBuffer {
 	fun capacity(): Int
@@ -8,4 +8,3 @@ expect open class OpusBuffer {
 	fun clear(): OpusBuffer
 	fun rewind(): OpusBuffer
 }
-

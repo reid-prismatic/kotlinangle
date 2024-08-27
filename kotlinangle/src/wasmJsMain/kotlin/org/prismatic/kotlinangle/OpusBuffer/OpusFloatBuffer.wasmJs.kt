@@ -1,4 +1,4 @@
-package org.prismatic.kotlinangle
+package org.prismatic.kotlinangle.OpusBuffer
 
 actual class OpusFloatBuffer : OpusBuffer() {
 	actual fun put(float: Float): OpusFloatBuffer {

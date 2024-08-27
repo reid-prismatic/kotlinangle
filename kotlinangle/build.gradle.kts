@@ -67,6 +67,7 @@ kotlin {
             implementation(libs.androidx.lifecycle.viewmodel)
             implementation(libs.androidx.lifecycle.runtime.compose)
             implementation(libs.kotlinx.io.core)
+            api("org.prismatic.opus.math:opusmath:0.0.12")
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)

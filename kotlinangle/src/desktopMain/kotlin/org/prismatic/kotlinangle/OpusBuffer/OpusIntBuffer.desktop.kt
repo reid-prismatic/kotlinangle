@@ -1,4 +1,4 @@
-package org.prismatic.kotlinangle
+package org.prismatic.kotlinangle.OpusBuffer
 
 import java.nio.IntBuffer
 
@@ -16,11 +16,11 @@ actual class OpusIntBuffer(private val intBuffer: IntBuffer) : OpusBuffer(intBuf
 
 	actual companion object {
 		actual fun allocate(capacity: Int): OpusIntBuffer {
-			return OpusIntBuffer(java.nio.IntBuffer.allocate(capacity))
+			return OpusIntBuffer(IntBuffer.allocate(capacity))
 		}
 
 		actual fun wrap(array: IntArray): OpusIntBuffer {
-			return OpusIntBuffer(java.nio.IntBuffer.wrap(array))
+			return OpusIntBuffer(IntBuffer.wrap(array))
 		}
 	}
 

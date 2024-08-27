@@ -1,4 +1,4 @@
-package org.prismatic.kotlinangle
+package org.prismatic.kotlinangle.OpusBuffer
 
 actual class OpusIntBuffer : OpusBuffer() {
 	actual fun put(int: Int): OpusIntBuffer {

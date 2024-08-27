@@ -2,6 +2,10 @@ package org.prismatic.kotlinangle
 
 import com.jogamp.common.nio.Buffers
 import com.jogamp.common.nio.PointerBuffer
+import org.prismatic.kotlinangle.OpusBuffer.OpusBuffer
+import org.prismatic.kotlinangle.OpusBuffer.OpusByteBuffer
+import org.prismatic.kotlinangle.OpusBuffer.OpusFloatBuffer
+import org.prismatic.kotlinangle.OpusBuffer.OpusIntBuffer
 import java.io.File
 import java.nio.ByteBuffer
 

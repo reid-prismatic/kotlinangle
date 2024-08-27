@@ -1,5 +1,10 @@
 package org.prismatic.kotlinangle
 
+import org.prismatic.kotlinangle.OpusBuffer.OpusBuffer
+import org.prismatic.kotlinangle.OpusBuffer.OpusByteBuffer
+import org.prismatic.kotlinangle.OpusBuffer.OpusFloatBuffer
+import org.prismatic.kotlinangle.OpusBuffer.OpusIntBuffer
+
 interface AngleWrapper {
 
 	fun glActiveTexture(texture: Int)

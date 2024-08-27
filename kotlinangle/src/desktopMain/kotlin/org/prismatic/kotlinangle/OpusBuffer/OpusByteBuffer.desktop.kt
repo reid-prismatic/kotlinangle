@@ -1,4 +1,4 @@
-package org.prismatic.kotlinangle
+package org.prismatic.kotlinangle.OpusBuffer
 
 import java.nio.ByteBuffer
 
@@ -16,11 +16,11 @@ actual class OpusByteBuffer(private val byteBuffer: ByteBuffer) : OpusBuffer(byt
 
 	actual companion object {
 		actual fun allocate(capacity: Int): OpusByteBuffer {
-			return OpusByteBuffer(java.nio.ByteBuffer.allocate(capacity))
+			return OpusByteBuffer(ByteBuffer.allocate(capacity))
 		}
 
 		actual fun wrap(array: ByteArray): OpusByteBuffer {
-			return OpusByteBuffer(java.nio.ByteBuffer.wrap(array))
+			return OpusByteBuffer(ByteBuffer.wrap(array))
 		}
 	}
 

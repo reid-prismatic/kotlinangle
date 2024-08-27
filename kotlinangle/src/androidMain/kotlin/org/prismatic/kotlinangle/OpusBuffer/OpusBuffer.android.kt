@@ -1,4 +1,4 @@
-package org.prismatic.kotlinangle
+package org.prismatic.kotlinangle.OpusBuffer
 
 actual open class OpusBuffer {
 	actual fun capacity(): Int {

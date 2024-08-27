@@ -1,5 +1,4 @@
-package org.prismatic.kotlinangle
-
+package org.prismatic.kotlinangle.OpusBuffer
 
 expect class OpusByteBuffer : OpusBuffer {
 	fun put(byte: Byte): OpusByteBuffer
