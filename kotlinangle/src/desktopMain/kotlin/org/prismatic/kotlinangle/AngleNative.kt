@@ -43,13 +43,13 @@ object AngleNative: AngleWrapper {
 	 * @param name a direct or array-backed [java.nio.ByteBuffer]
 	 */
 	override fun glBindAttribLocation(program: Int, index: Int, name: OpusByteBuffer?) {
-		val name_is_direct: Boolean = Buffers.isDirect(name)
+		val name_is_direct: Boolean = Buffers.isDirect(name?.buf)
 		glBindAttribLocation1(
 			program,
 			index,
-			if (name_is_direct) name else Buffers.getArray(name),
-			if (name_is_direct) Buffers.getDirectBufferByteOffset(name) else Buffers.getIndirectBufferByteOffset(
-				name
+			if (name_is_direct) name?.buf else Buffers.getArray(name?.buf),
+			if (name_is_direct) Buffers.getDirectBufferByteOffset(name?.buf) else Buffers.getIndirectBufferByteOffset(
+				name?.buf
 			),
 			name_is_direct
 		)
@@ -108,13 +108,13 @@ object AngleNative: AngleWrapper {
 	 * @param data a direct or array-backed [java.nio.Buffer]
 	 */
 	override fun glBufferData(target: Int, size: Int, data: OpusBuffer, usage: Int) {
-		val data_is_direct: Boolean = Buffers.isDirect(data)
+		val data_is_direct: Boolean = Buffers.isDirect(data.buf)
 		glBufferData1(
 			target,
 			size,
-			if (data_is_direct) data else Buffers.getArray(data),
-			if (data_is_direct) Buffers.getDirectBufferByteOffset(data) else Buffers.getIndirectBufferByteOffset(
-				data
+			if (data_is_direct) data.buf else Buffers.getArray(data.buf),
+			if (data_is_direct) Buffers.getDirectBufferByteOffset(data.buf) else Buffers.getIndirectBufferByteOffset(
+				data.buf
 			),
 			data_is_direct,
 			usage
@@ -137,14 +137,14 @@ object AngleNative: AngleWrapper {
 	 * @param data a direct or array-backed [java.nio.Buffer]
 	 */
 	override fun glBufferSubData(target: Int, offset: Int, size: Int, data: OpusBuffer) {
-		val data_is_direct: Boolean = Buffers.isDirect(data)
+		val data_is_direct: Boolean = Buffers.isDirect(data.buf)
 		glBufferSubData1(
 			target,
 			offset,
 			size,
-			if (data_is_direct) data else Buffers.getArray(data),
-			if (data_is_direct) Buffers.getDirectBufferByteOffset(data) else Buffers.getIndirectBufferByteOffset(
-				data
+			if (data_is_direct) data.buf else Buffers.getArray(data.buf),
+			if (data_is_direct) Buffers.getDirectBufferByteOffset(data.buf) else Buffers.getIndirectBufferByteOffset(
+				data.buf
 			),
 			data_is_direct
 		)
@@ -196,7 +196,7 @@ object AngleNative: AngleWrapper {
 		imageSize: Int,
 		data: OpusBuffer
 	) {
-		val data_is_direct: Boolean = Buffers.isDirect(data)
+		val data_is_direct: Boolean = Buffers.isDirect(data.buf)
 		glCompressedTexImage2D1(
 			target,
 			level,
@@ -205,9 +205,9 @@ object AngleNative: AngleWrapper {
 			height,
 			border,
 			imageSize,
-			if (data_is_direct) data else Buffers.getArray(data),
-			if (data_is_direct) Buffers.getDirectBufferByteOffset(data) else Buffers.getIndirectBufferByteOffset(
-				data
+			if (data_is_direct) data.buf else Buffers.getArray(data.buf),
+			if (data_is_direct) Buffers.getDirectBufferByteOffset(data.buf) else Buffers.getIndirectBufferByteOffset(
+				data.buf
 			),
 			data_is_direct
 		)
@@ -243,7 +243,7 @@ object AngleNative: AngleWrapper {
 		imageSize: Int,
 		data: OpusBuffer
 	) {
-		val data_is_direct: Boolean = Buffers.isDirect(data)
+		val data_is_direct: Boolean = Buffers.isDirect(data.buf)
 		glCompressedTexSubImage2D1(
 			target,
 			level,
@@ -253,9 +253,9 @@ object AngleNative: AngleWrapper {
 			height,
 			format,
 			imageSize,
-			if (data_is_direct) data else Buffers.getArray(data),
-			if (data_is_direct) Buffers.getDirectBufferByteOffset(data) else Buffers.getIndirectBufferByteOffset(
-				data
+			if (data_is_direct) data.buf else Buffers.getArray(data.buf),
+			if (data_is_direct) Buffers.getDirectBufferByteOffset(data.buf) else Buffers.getIndirectBufferByteOffset(
+				data.buf
 			),
 			data_is_direct
 		)
@@ -315,12 +315,12 @@ object AngleNative: AngleWrapper {
 	 * @param buffers a direct or array-backed [java.nio.IntBuffer]
 	 */
 	override fun glDeleteBuffers(n: Int, buffers: OpusIntBuffer?) {
-		val buffers_is_direct: Boolean = Buffers.isDirect(buffers)
+		val buffers_is_direct: Boolean = Buffers.isDirect(buffers?.buf)
 		glDeleteBuffers1(
 			n,
-			if (buffers_is_direct) buffers else Buffers.getArray(buffers),
-			if (buffers_is_direct) Buffers.getDirectBufferByteOffset(buffers) else Buffers.getIndirectBufferByteOffset(
-				buffers
+			if (buffers_is_direct) buffers?.buf else Buffers.getArray(buffers?.buf),
+			if (buffers_is_direct) Buffers.getDirectBufferByteOffset(buffers?.buf) else Buffers.getIndirectBufferByteOffset(
+				buffers?.buf
 			),
 			buffers_is_direct
 		)
@@ -346,12 +346,12 @@ object AngleNative: AngleWrapper {
 	 * @param framebuffers a direct or array-backed [java.nio.IntBuffer]
 	 */
 	override fun glDeleteFramebuffers(n: Int, framebuffers: OpusIntBuffer?) {
-		val framebuffers_is_direct: Boolean = Buffers.isDirect(framebuffers)
+		val framebuffers_is_direct: Boolean = Buffers.isDirect(framebuffers?.buf)
 		glDeleteFramebuffers1(
 			n,
-			if (framebuffers_is_direct) framebuffers else Buffers.getArray(framebuffers),
-			if (framebuffers_is_direct) Buffers.getDirectBufferByteOffset(framebuffers) else Buffers.getIndirectBufferByteOffset(
-				framebuffers
+			if (framebuffers_is_direct) framebuffers?.buf else Buffers.getArray(framebuffers?.buf),
+			if (framebuffers_is_direct) Buffers.getDirectBufferByteOffset(framebuffers?.buf) else Buffers.getIndirectBufferByteOffset(
+				framebuffers?.buf
 			),
 			framebuffers_is_direct
 		)
@@ -382,12 +382,12 @@ object AngleNative: AngleWrapper {
 	 * @param renderbuffers a direct or array-backed [java.nio.IntBuffer]
 	 */
 	override fun glDeleteRenderbuffers(n: Int, renderbuffers: OpusIntBuffer?) {
-		val renderbuffers_is_direct: Boolean = Buffers.isDirect(renderbuffers)
+		val renderbuffers_is_direct: Boolean = Buffers.isDirect(renderbuffers?.buf)
 		glDeleteRenderbuffers1(
 			n,
-			if (renderbuffers_is_direct) renderbuffers else Buffers.getArray(renderbuffers),
-			if (renderbuffers_is_direct) Buffers.getDirectBufferByteOffset(renderbuffers) else Buffers.getIndirectBufferByteOffset(
-				renderbuffers
+			if (renderbuffers_is_direct) renderbuffers?.buf else Buffers.getArray(renderbuffers?.buf),
+			if (renderbuffers_is_direct) Buffers.getDirectBufferByteOffset(renderbuffers?.buf) else Buffers.getIndirectBufferByteOffset(
+				renderbuffers?.buf
 			),
 			renderbuffers_is_direct
 		)
@@ -418,12 +418,12 @@ object AngleNative: AngleWrapper {
 	 * @param textures a direct or array-backed [java.nio.IntBuffer]
 	 */
 	override fun glDeleteTextures(n: Int, textures: OpusIntBuffer?) {
-		val textures_is_direct: Boolean = Buffers.isDirect(textures)
+		val textures_is_direct: Boolean = Buffers.isDirect(textures?.buf)
 		glDeleteTextures1(
 			n,
-			if (textures_is_direct) textures else Buffers.getArray(textures),
-			if (textures_is_direct) Buffers.getDirectBufferByteOffset(textures) else Buffers.getIndirectBufferByteOffset(
-				textures
+			if (textures_is_direct) textures?.buf else Buffers.getArray(textures?.buf),
+			if (textures_is_direct) Buffers.getDirectBufferByteOffset(textures?.buf) else Buffers.getIndirectBufferByteOffset(
+				textures?.buf
 			),
 			textures_is_direct
 		)
@@ -470,14 +470,14 @@ object AngleNative: AngleWrapper {
 	 * @param indices a direct or array-backed [java.nio.Buffer]
 	 */
 	override fun glDrawElements(mode: Int, count: Int, type: Int, indices: OpusBuffer) {
-		val indices_is_direct: Boolean = Buffers.isDirect(indices)
+		val indices_is_direct: Boolean = Buffers.isDirect(indices.buf)
 		glDrawElements1(
 			mode,
 			count,
 			type,
-			if (indices_is_direct) indices else Buffers.getArray(indices),
-			if (indices_is_direct) Buffers.getDirectBufferByteOffset(indices) else Buffers.getIndirectBufferByteOffset(
-				indices
+			if (indices_is_direct) indices.buf else Buffers.getArray(indices.buf),
+			if (indices_is_direct) Buffers.getDirectBufferByteOffset(indices.buf) else Buffers.getIndirectBufferByteOffset(
+				indices.buf
 			),
 			indices_is_direct
 		)
@@ -531,12 +531,12 @@ object AngleNative: AngleWrapper {
 	 * @param buffers a direct or array-backed [java.nio.IntBuffer]
 	 */
 	override fun glGenBuffers(n: Int, buffers: OpusIntBuffer?) {
-		val buffers_is_direct: Boolean = Buffers.isDirect(buffers)
+		val buffers_is_direct: Boolean = Buffers.isDirect(buffers?.buf)
 		glGenBuffers1(
 			n,
-			if (buffers_is_direct) buffers else Buffers.getArray(buffers),
-			if (buffers_is_direct) Buffers.getDirectBufferByteOffset(buffers) else Buffers.getIndirectBufferByteOffset(
-				buffers
+			if (buffers_is_direct) buffers?.buf else Buffers.getArray(buffers?.buf),
+			if (buffers_is_direct) Buffers.getDirectBufferByteOffset(buffers?.buf) else Buffers.getIndirectBufferByteOffset(
+				buffers?.buf
 			),
 			buffers_is_direct
 		)
@@ -565,12 +565,12 @@ object AngleNative: AngleWrapper {
 	 * @param framebuffers a direct or array-backed [java.nio.IntBuffer]
 	 */
 	override fun glGenFramebuffers(n: Int, framebuffers: OpusIntBuffer?) {
-		val framebuffers_is_direct: Boolean = Buffers.isDirect(framebuffers)
+		val framebuffers_is_direct: Boolean = Buffers.isDirect(framebuffers?.buf)
 		glGenFramebuffers1(
 			n,
-			if (framebuffers_is_direct) framebuffers else Buffers.getArray(framebuffers),
-			if (framebuffers_is_direct) Buffers.getDirectBufferByteOffset(framebuffers) else Buffers.getIndirectBufferByteOffset(
-				framebuffers
+			if (framebuffers_is_direct) framebuffers?.buf else Buffers.getArray(framebuffers?.buf),
+			if (framebuffers_is_direct) Buffers.getDirectBufferByteOffset(framebuffers?.buf) else Buffers.getIndirectBufferByteOffset(
+				framebuffers?.buf
 			),
 			framebuffers_is_direct
 		)
@@ -598,12 +598,12 @@ object AngleNative: AngleWrapper {
 	 * @param renderbuffers a direct or array-backed [java.nio.IntBuffer]
 	 */
 	override fun glGenRenderbuffers(n: Int, renderbuffers: OpusIntBuffer?) {
-		val renderbuffers_is_direct: Boolean = Buffers.isDirect(renderbuffers)
+		val renderbuffers_is_direct: Boolean = Buffers.isDirect(renderbuffers?.buf)
 		glGenRenderbuffers1(
 			n,
-			if (renderbuffers_is_direct) renderbuffers else Buffers.getArray(renderbuffers),
-			if (renderbuffers_is_direct) Buffers.getDirectBufferByteOffset(renderbuffers) else Buffers.getIndirectBufferByteOffset(
-				renderbuffers
+			if (renderbuffers_is_direct) renderbuffers?.buf else Buffers.getArray(renderbuffers?.buf),
+			if (renderbuffers_is_direct) Buffers.getDirectBufferByteOffset(renderbuffers?.buf) else Buffers.getIndirectBufferByteOffset(
+				renderbuffers?.buf
 			),
 			renderbuffers_is_direct
 		)
@@ -631,12 +631,12 @@ object AngleNative: AngleWrapper {
 	 * @param textures a direct or array-backed [java.nio.IntBuffer]
 	 */
 	override fun glGenTextures(n: Int, textures: OpusIntBuffer?) {
-		val textures_is_direct: Boolean = Buffers.isDirect(textures)
+		val textures_is_direct: Boolean = Buffers.isDirect(textures?.buf)
 		glGenTextures1(
 			n,
-			if (textures_is_direct) textures else Buffers.getArray(textures),
-			if (textures_is_direct) Buffers.getDirectBufferByteOffset(textures) else Buffers.getIndirectBufferByteOffset(
-				textures
+			if (textures_is_direct) textures?.buf else Buffers.getArray(textures?.buf),
+			if (textures_is_direct) Buffers.getDirectBufferByteOffset(textures?.buf) else Buffers.getIndirectBufferByteOffset(
+				textures?.buf
 			),
 			textures_is_direct
 		)
@@ -675,32 +675,32 @@ object AngleNative: AngleWrapper {
 	) {
 
 
-		val length_is_direct: Boolean = Buffers.isDirect(length)
-		val size_is_direct: Boolean = Buffers.isDirect(size)
-		val type_is_direct: Boolean = Buffers.isDirect(type)
-		val name_is_direct: Boolean = Buffers.isDirect(name)
+		val length_is_direct: Boolean = Buffers.isDirect(length?.buf)
+		val size_is_direct: Boolean = Buffers.isDirect(size?.buf)
+		val type_is_direct: Boolean = Buffers.isDirect(type?.buf)
+		val name_is_direct: Boolean = Buffers.isDirect(name?.buf)
 		glGetActiveAttrib1(
 			program,
 			index,
 			bufSize,
-			if (length_is_direct) length else Buffers.getArray(length),
-			if (length_is_direct) Buffers.getDirectBufferByteOffset(length) else Buffers.getIndirectBufferByteOffset(
-				length
+			if (length_is_direct) length?.buf else Buffers.getArray(length?.buf),
+			if (length_is_direct) Buffers.getDirectBufferByteOffset(length?.buf) else Buffers.getIndirectBufferByteOffset(
+				length?.buf
 			),
 			length_is_direct,
-			if (size_is_direct) size else Buffers.getArray(size),
-			if (size_is_direct) Buffers.getDirectBufferByteOffset(size) else Buffers.getIndirectBufferByteOffset(
-				size
+			if (size_is_direct) size?.buf else Buffers.getArray(size?.buf),
+			if (size_is_direct) Buffers.getDirectBufferByteOffset(size?.buf) else Buffers.getIndirectBufferByteOffset(
+				size?.buf
 			),
 			size_is_direct,
-			if (type_is_direct) type else Buffers.getArray(type),
-			if (type_is_direct) Buffers.getDirectBufferByteOffset(type) else Buffers.getIndirectBufferByteOffset(
-				type
+			if (type_is_direct) type?.buf else Buffers.getArray(type?.buf),
+			if (type_is_direct) Buffers.getDirectBufferByteOffset(type?.buf) else Buffers.getIndirectBufferByteOffset(
+				type?.buf
 			),
 			type_is_direct,
-			if (name_is_direct) name else Buffers.getArray(name),
-			if (name_is_direct) Buffers.getDirectBufferByteOffset(name) else Buffers.getIndirectBufferByteOffset(
-				name
+			if (name_is_direct) name?.buf else Buffers.getArray(name?.buf),
+			if (name_is_direct) Buffers.getDirectBufferByteOffset(name?.buf) else Buffers.getIndirectBufferByteOffset(
+				name?.buf
 			),
 			name_is_direct
 		)
@@ -782,32 +782,32 @@ object AngleNative: AngleWrapper {
 		type: OpusIntBuffer?,
 		name: OpusByteBuffer?
 	) {
-		val length_is_direct: Boolean = Buffers.isDirect(length)
-		val size_is_direct: Boolean = Buffers.isDirect(size)
-		val type_is_direct: Boolean = Buffers.isDirect(type)
-		val name_is_direct: Boolean = Buffers.isDirect(name)
+		val length_is_direct: Boolean = Buffers.isDirect(length?.buf)
+		val size_is_direct: Boolean = Buffers.isDirect(size?.buf)
+		val type_is_direct: Boolean = Buffers.isDirect(type?.buf)
+		val name_is_direct: Boolean = Buffers.isDirect(name?.buf)
 		glGetActiveUniform1(
 			program,
 			index,
 			bufSize,
-			if (length_is_direct) length else Buffers.getArray(length),
-			if (length_is_direct) Buffers.getDirectBufferByteOffset(length) else Buffers.getIndirectBufferByteOffset(
-				length
+			if (length_is_direct) length?.buf else Buffers.getArray(length?.buf),
+			if (length_is_direct) Buffers.getDirectBufferByteOffset(length?.buf) else Buffers.getIndirectBufferByteOffset(
+				length?.buf
 			),
 			length_is_direct,
-			if (size_is_direct) size else Buffers.getArray(size),
-			if (size_is_direct) Buffers.getDirectBufferByteOffset(size) else Buffers.getIndirectBufferByteOffset(
-				size
+			if (size_is_direct) size?.buf else Buffers.getArray(size?.buf),
+			if (size_is_direct) Buffers.getDirectBufferByteOffset(size?.buf) else Buffers.getIndirectBufferByteOffset(
+				size?.buf
 			),
 			size_is_direct,
-			if (type_is_direct) type else Buffers.getArray(type),
-			if (type_is_direct) Buffers.getDirectBufferByteOffset(type) else Buffers.getIndirectBufferByteOffset(
-				type
+			if (type_is_direct) type?.buf else Buffers.getArray(type?.buf),
+			if (type_is_direct) Buffers.getDirectBufferByteOffset(type?.buf) else Buffers.getIndirectBufferByteOffset(
+				type?.buf
 			),
 			type_is_direct,
-			if (name_is_direct) name else Buffers.getArray(name),
-			if (name_is_direct) Buffers.getDirectBufferByteOffset(name) else Buffers.getIndirectBufferByteOffset(
-				name
+			if (name_is_direct) name?.buf else Buffers.getArray(name?.buf),
+			if (name_is_direct) Buffers.getDirectBufferByteOffset(name?.buf) else Buffers.getIndirectBufferByteOffset(
+				name?.buf
 			),
 			name_is_direct
 		)
@@ -879,19 +879,19 @@ object AngleNative: AngleWrapper {
 	 * @param shaders a direct or array-backed [java.nio.IntBuffer]
 	 */
 	override fun glGetAttachedShaders(program: Int, maxCount: Int, count: OpusIntBuffer?, shaders: OpusIntBuffer?) {
-		val count_is_direct: Boolean = Buffers.isDirect(count)
-		val shaders_is_direct: Boolean = Buffers.isDirect(shaders)
+		val count_is_direct: Boolean = Buffers.isDirect(count?.buf)
+		val shaders_is_direct: Boolean = Buffers.isDirect(shaders?.buf)
 		glGetAttachedShaders1(
 			program,
 			maxCount,
-			if (count_is_direct) count else Buffers.getArray(count),
-			if (count_is_direct) Buffers.getDirectBufferByteOffset(count) else Buffers.getIndirectBufferByteOffset(
-				count
+			if (count_is_direct) count?.buf else Buffers.getArray(count?.buf),
+			if (count_is_direct) Buffers.getDirectBufferByteOffset(count?.buf) else Buffers.getIndirectBufferByteOffset(
+				count?.buf
 			),
 			count_is_direct,
-			if (shaders_is_direct) shaders else Buffers.getArray(shaders),
-			if (shaders_is_direct) Buffers.getDirectBufferByteOffset(shaders) else Buffers.getIndirectBufferByteOffset(
-				shaders
+			if (shaders_is_direct) shaders?.buf else Buffers.getArray(shaders?.buf),
+			if (shaders_is_direct) Buffers.getDirectBufferByteOffset(shaders?.buf) else Buffers.getIndirectBufferByteOffset(
+				shaders?.buf
 			),
 			shaders_is_direct
 		)
@@ -939,12 +939,12 @@ object AngleNative: AngleWrapper {
 	 * @param name a direct or array-backed [java.nio.ByteBuffer]
 	 */
 	override fun glGetAttribLocation(program: Int, name: OpusByteBuffer?): Int {
-		val name_is_direct: Boolean = Buffers.isDirect(name)
+		val name_is_direct: Boolean = Buffers.isDirect(name?.buf)
 		return glGetAttribLocation1(
 			program,
-			if (name_is_direct) name else Buffers.getArray(name),
-			if (name_is_direct) Buffers.getDirectBufferByteOffset(name) else Buffers.getIndirectBufferByteOffset(
-				name
+			if (name_is_direct) name?.buf else Buffers.getArray(name?.buf),
+			if (name_is_direct) Buffers.getDirectBufferByteOffset(name?.buf) else Buffers.getIndirectBufferByteOffset(
+				name?.buf
 			),
 			name_is_direct
 		)
@@ -970,12 +970,12 @@ object AngleNative: AngleWrapper {
 	 * @param data a direct or array-backed [java.nio.ByteBuffer]
 	 */
 	override fun glGetBooleanv(pname: Int, data: OpusByteBuffer?) {
-		val data_is_direct: Boolean = Buffers.isDirect(data)
+		val data_is_direct: Boolean = Buffers.isDirect(data?.buf)
 		glGetBooleanv1(
 			pname,
-			if (data_is_direct) data else Buffers.getArray(data),
-			if (data_is_direct) Buffers.getDirectBufferByteOffset(data) else Buffers.getIndirectBufferByteOffset(
-				data
+			if (data_is_direct) data?.buf else Buffers.getArray(data?.buf),
+			if (data_is_direct) Buffers.getDirectBufferByteOffset(data?.buf) else Buffers.getIndirectBufferByteOffset(
+				data?.buf
 			),
 			data_is_direct
 		)
@@ -1001,13 +1001,13 @@ object AngleNative: AngleWrapper {
 	 * @param params a direct or array-backed [java.nio.IntBuffer]
 	 */
 	override fun glGetBufferParameteriv(target: Int, pname: Int, params: OpusIntBuffer?) {
-		val params_is_direct: Boolean = Buffers.isDirect(params)
+		val params_is_direct: Boolean = Buffers.isDirect(params?.buf)
 		glGetBufferParameteriv1(
 			target,
 			pname,
-			if (params_is_direct) params else Buffers.getArray(params),
-			if (params_is_direct) Buffers.getDirectBufferByteOffset(params) else Buffers.getIndirectBufferByteOffset(
-				params
+			if (params_is_direct) params?.buf else Buffers.getArray(params?.buf),
+			if (params_is_direct) Buffers.getDirectBufferByteOffset(params?.buf) else Buffers.getIndirectBufferByteOffset(
+				params?.buf
 			),
 			params_is_direct
 		)
@@ -1037,12 +1037,12 @@ object AngleNative: AngleWrapper {
 	 * @param data a direct or array-backed [java.nio.FloatBuffer]
 	 */
 	override fun glGetFloatv(pname: Int, data: OpusFloatBuffer?) {
-		val data_is_direct: Boolean = Buffers.isDirect(data)
+		val data_is_direct: Boolean = Buffers.isDirect(data?.buf)
 		glGetFloatv1(
 			pname,
-			if (data_is_direct) data else Buffers.getArray(data),
-			if (data_is_direct) Buffers.getDirectBufferByteOffset(data) else Buffers.getIndirectBufferByteOffset(
-				data
+			if (data_is_direct) data?.buf else Buffers.getArray(data?.buf),
+			if (data_is_direct) Buffers.getDirectBufferByteOffset(data?.buf) else Buffers.getIndirectBufferByteOffset(
+				data?.buf
 			),
 			data_is_direct
 		)
@@ -1073,14 +1073,14 @@ object AngleNative: AngleWrapper {
 		pname: Int,
 		params: OpusIntBuffer?
 	) {
-		val params_is_direct: Boolean = Buffers.isDirect(params)
+		val params_is_direct: Boolean = Buffers.isDirect(params?.buf)
 		glGetFramebufferAttachmentParameteriv1(
 			target,
 			attachment,
 			pname,
-			if (params_is_direct) params else Buffers.getArray(params),
-			if (params_is_direct) Buffers.getDirectBufferByteOffset(params) else Buffers.getIndirectBufferByteOffset(
-				params
+			if (params_is_direct) params?.buf else Buffers.getArray(params?.buf),
+			if (params_is_direct) Buffers.getDirectBufferByteOffset(params?.buf) else Buffers.getIndirectBufferByteOffset(
+				params?.buf
 			),
 			params_is_direct
 		)
@@ -1121,12 +1121,12 @@ object AngleNative: AngleWrapper {
 	 * @param data a direct or array-backed [java.nio.IntBuffer]
 	 */
 	override fun glGetIntegerv(pname: Int, data: OpusIntBuffer?) {
-		val data_is_direct: Boolean = Buffers.isDirect(data)
+		val data_is_direct: Boolean = Buffers.isDirect(data?.buf)
 		glGetIntegerv1(
 			pname,
-			if (data_is_direct) data else Buffers.getArray(data),
-			if (data_is_direct) Buffers.getDirectBufferByteOffset(data) else Buffers.getIndirectBufferByteOffset(
-				data
+			if (data_is_direct) data?.buf else Buffers.getArray(data?.buf),
+			if (data_is_direct) Buffers.getDirectBufferByteOffset(data?.buf) else Buffers.getIndirectBufferByteOffset(
+				data?.buf
 			),
 			data_is_direct
 		)
@@ -1152,13 +1152,13 @@ object AngleNative: AngleWrapper {
 	 * @param params a direct or array-backed [java.nio.IntBuffer]
 	 */
 	override fun glGetProgramiv(program: Int, pname: Int, params: OpusIntBuffer?) {
-		val params_is_direct: Boolean = Buffers.isDirect(params)
+		val params_is_direct: Boolean = Buffers.isDirect(params?.buf)
 		glGetProgramiv1(
 			program,
 			pname,
-			if (params_is_direct) params else Buffers.getArray(params),
-			if (params_is_direct) Buffers.getDirectBufferByteOffset(params) else Buffers.getIndirectBufferByteOffset(
-				params
+			if (params_is_direct) params?.buf else Buffers.getArray(params?.buf),
+			if (params_is_direct) Buffers.getDirectBufferByteOffset(params?.buf) else Buffers.getIndirectBufferByteOffset(
+				params?.buf
 			),
 			params_is_direct
 		)
@@ -1186,19 +1186,19 @@ object AngleNative: AngleWrapper {
 	 * @param infoLog a direct or array-backed [java.nio.ByteBuffer]
 	 */
 	override fun glGetProgramInfoLog(program: Int, bufSize: Int, length: OpusIntBuffer?, infoLog: OpusByteBuffer?) {
-		val length_is_direct: Boolean = Buffers.isDirect(length)
-		val infoLog_is_direct: Boolean = Buffers.isDirect(infoLog)
+		val length_is_direct: Boolean = Buffers.isDirect(length?.buf)
+		val infoLog_is_direct: Boolean = Buffers.isDirect(infoLog?.buf)
 		glGetProgramInfoLog1(
 			program,
 			bufSize,
-			if (length_is_direct) length else Buffers.getArray(length),
-			if (length_is_direct) Buffers.getDirectBufferByteOffset(length) else Buffers.getIndirectBufferByteOffset(
-				length
+			if (length_is_direct) length?.buf else Buffers.getArray(length?.buf),
+			if (length_is_direct) Buffers.getDirectBufferByteOffset(length?.buf) else Buffers.getIndirectBufferByteOffset(
+				length?.buf
 			),
 			length_is_direct,
-			if (infoLog_is_direct) infoLog else Buffers.getArray(infoLog),
-			if (infoLog_is_direct) Buffers.getDirectBufferByteOffset(infoLog) else Buffers.getIndirectBufferByteOffset(
-				infoLog
+			if (infoLog_is_direct) infoLog?.buf else Buffers.getArray(infoLog?.buf),
+			if (infoLog_is_direct) Buffers.getDirectBufferByteOffset(infoLog?.buf) else Buffers.getIndirectBufferByteOffset(
+				infoLog?.buf
 			),
 			infoLog_is_direct
 		)
@@ -1246,13 +1246,13 @@ object AngleNative: AngleWrapper {
 	 * @param params a direct or array-backed [java.nio.IntBuffer]
 	 */
 	override fun glGetRenderbufferParameteriv(target: Int, pname: Int, params: OpusIntBuffer?) {
-		val params_is_direct: Boolean = Buffers.isDirect(params)
+		val params_is_direct: Boolean = Buffers.isDirect(params?.buf)
 		glGetRenderbufferParameteriv1(
 			target,
 			pname,
-			if (params_is_direct) params else Buffers.getArray(params),
-			if (params_is_direct) Buffers.getDirectBufferByteOffset(params) else Buffers.getIndirectBufferByteOffset(
-				params
+			if (params_is_direct) params?.buf else Buffers.getArray(params?.buf),
+			if (params_is_direct) Buffers.getDirectBufferByteOffset(params?.buf) else Buffers.getIndirectBufferByteOffset(
+				params?.buf
 			),
 			params_is_direct
 		)
@@ -1290,13 +1290,13 @@ object AngleNative: AngleWrapper {
 	 * @param params a direct or array-backed [java.nio.IntBuffer]
 	 */
 	override fun glGetShaderiv(shader: Int, pname: Int, params: OpusIntBuffer?) {
-		val params_is_direct: Boolean = Buffers.isDirect(params)
+		val params_is_direct: Boolean = Buffers.isDirect(params?.buf)
 		glGetShaderiv1(
 			shader,
 			pname,
-			if (params_is_direct) params else Buffers.getArray(params),
-			if (params_is_direct) Buffers.getDirectBufferByteOffset(params) else Buffers.getIndirectBufferByteOffset(
-				params
+			if (params_is_direct) params?.buf else Buffers.getArray(params?.buf),
+			if (params_is_direct) Buffers.getDirectBufferByteOffset(params?.buf) else Buffers.getIndirectBufferByteOffset(
+				params?.buf
 			),
 			params_is_direct
 		)
@@ -1324,19 +1324,19 @@ object AngleNative: AngleWrapper {
 	 * @param infoLog a direct or array-backed [java.nio.ByteBuffer]
 	 */
 	override fun glGetShaderInfoLog(shader: Int, bufSize: Int, length: OpusIntBuffer?, infoLog: OpusByteBuffer?) {
-		val length_is_direct: Boolean = Buffers.isDirect(length)
-		val infoLog_is_direct: Boolean = Buffers.isDirect(infoLog)
+		val length_is_direct: Boolean = Buffers.isDirect(length?.buf)
+		val infoLog_is_direct: Boolean = Buffers.isDirect(infoLog?.buf)
 		glGetShaderInfoLog1(
 			shader,
 			bufSize,
-			if (length_is_direct) length else Buffers.getArray(length),
-			if (length_is_direct) Buffers.getDirectBufferByteOffset(length) else Buffers.getIndirectBufferByteOffset(
-				length
+			if (length_is_direct) length?.buf else Buffers.getArray(length?.buf),
+			if (length_is_direct) Buffers.getDirectBufferByteOffset(length?.buf) else Buffers.getIndirectBufferByteOffset(
+				length?.buf
 			),
 			length_is_direct,
-			if (infoLog_is_direct) infoLog else Buffers.getArray(infoLog),
-			if (infoLog_is_direct) Buffers.getDirectBufferByteOffset(infoLog) else Buffers.getIndirectBufferByteOffset(
-				infoLog
+			if (infoLog_is_direct) infoLog?.buf else Buffers.getArray(infoLog?.buf),
+			if (infoLog_is_direct) Buffers.getDirectBufferByteOffset(infoLog?.buf) else Buffers.getIndirectBufferByteOffset(
+				infoLog?.buf
 			),
 			infoLog_is_direct
 		)
@@ -1390,19 +1390,19 @@ object AngleNative: AngleWrapper {
 		range: OpusIntBuffer?,
 		precision: OpusIntBuffer?
 	) {
-		val range_is_direct: Boolean = Buffers.isDirect(range)
-		val precision_is_direct: Boolean = Buffers.isDirect(precision)
+		val range_is_direct: Boolean = Buffers.isDirect(range?.buf)
+		val precision_is_direct: Boolean = Buffers.isDirect(precision?.buf)
 		glGetShaderPrecisionFormat1(
 			shadertype,
 			precisiontype,
-			if (range_is_direct) range else Buffers.getArray(range),
-			if (range_is_direct) Buffers.getDirectBufferByteOffset(range) else Buffers.getIndirectBufferByteOffset(
-				range
+			if (range_is_direct) range?.buf else Buffers.getArray(range?.buf),
+			if (range_is_direct) Buffers.getDirectBufferByteOffset(range?.buf) else Buffers.getIndirectBufferByteOffset(
+				range?.buf
 			),
 			range_is_direct,
-			if (precision_is_direct) precision else Buffers.getArray(precision),
-			if (precision_is_direct) Buffers.getDirectBufferByteOffset(precision) else Buffers.getIndirectBufferByteOffset(
-				precision
+			if (precision_is_direct) precision?.buf else Buffers.getArray(precision?.buf),
+			if (precision_is_direct) Buffers.getDirectBufferByteOffset(precision?.buf) else Buffers.getIndirectBufferByteOffset(
+				precision?.buf
 			),
 			precision_is_direct
 		)
@@ -1451,19 +1451,19 @@ object AngleNative: AngleWrapper {
 	 * @param source a direct or array-backed [java.nio.ByteBuffer]
 	 */
 	override fun glGetShaderSource(shader: Int, bufSize: Int, length: OpusIntBuffer?, source: OpusByteBuffer?) {
-		val length_is_direct: Boolean = Buffers.isDirect(length)
-		val source_is_direct: Boolean = Buffers.isDirect(source)
+		val length_is_direct: Boolean = Buffers.isDirect(length?.buf)
+		val source_is_direct: Boolean = Buffers.isDirect(source?.buf)
 		glGetShaderSource1(
 			shader,
 			bufSize,
-			if (length_is_direct) length else Buffers.getArray(length),
-			if (length_is_direct) Buffers.getDirectBufferByteOffset(length) else Buffers.getIndirectBufferByteOffset(
-				length
+			if (length_is_direct) length?.buf else Buffers.getArray(length?.buf),
+			if (length_is_direct) Buffers.getDirectBufferByteOffset(length?.buf) else Buffers.getIndirectBufferByteOffset(
+				length?.buf
 			),
 			length_is_direct,
-			if (source_is_direct) source else Buffers.getArray(source),
-			if (source_is_direct) Buffers.getDirectBufferByteOffset(source) else Buffers.getIndirectBufferByteOffset(
-				source
+			if (source_is_direct) source?.buf else Buffers.getArray(source?.buf),
+			if (source_is_direct) Buffers.getDirectBufferByteOffset(source?.buf) else Buffers.getIndirectBufferByteOffset(
+				source?.buf
 			),
 			source_is_direct
 		)
@@ -1521,13 +1521,13 @@ object AngleNative: AngleWrapper {
 	 * @param params a direct or array-backed [java.nio.FloatBuffer]
 	 */
 	override fun glGetTexParameterfv(target: Int, pname: Int, params: OpusFloatBuffer?) {
-		val params_is_direct: Boolean = Buffers.isDirect(params)
+		val params_is_direct: Boolean = Buffers.isDirect(params?.buf)
 		glGetTexParameterfv1(
 			target,
 			pname,
-			if (params_is_direct) params else Buffers.getArray(params),
-			if (params_is_direct) Buffers.getDirectBufferByteOffset(params) else Buffers.getIndirectBufferByteOffset(
-				params
+			if (params_is_direct) params?.buf else Buffers.getArray(params?.buf),
+			if (params_is_direct) Buffers.getDirectBufferByteOffset(params?.buf) else Buffers.getIndirectBufferByteOffset(
+				params?.buf
 			),
 			params_is_direct
 		)
@@ -1554,13 +1554,13 @@ object AngleNative: AngleWrapper {
 	 * @param params a direct or array-backed [java.nio.IntBuffer]
 	 */
 	override fun glGetTexParameteriv(target: Int, pname: Int, params: OpusIntBuffer?) {
-		val params_is_direct: Boolean = Buffers.isDirect(params)
+		val params_is_direct: Boolean = Buffers.isDirect(params?.buf)
 		glGetTexParameteriv1(
 			target,
 			pname,
-			if (params_is_direct) params else Buffers.getArray(params),
-			if (params_is_direct) Buffers.getDirectBufferByteOffset(params) else Buffers.getIndirectBufferByteOffset(
-				params
+			if (params_is_direct) params?.buf else Buffers.getArray(params?.buf),
+			if (params_is_direct) Buffers.getDirectBufferByteOffset(params?.buf) else Buffers.getIndirectBufferByteOffset(
+				params?.buf
 			),
 			params_is_direct
 		)
@@ -1587,13 +1587,13 @@ object AngleNative: AngleWrapper {
 	 * @param params a direct or array-backed [java.nio.FloatBuffer]
 	 */
 	override fun glGetUniformfv(program: Int, location: Int, params: OpusFloatBuffer?) {
-		val params_is_direct: Boolean = Buffers.isDirect(params)
+		val params_is_direct: Boolean = Buffers.isDirect(params?.buf)
 		glGetUniformfv1(
 			program,
 			location,
-			if (params_is_direct) params else Buffers.getArray(params),
-			if (params_is_direct) Buffers.getDirectBufferByteOffset(params) else Buffers.getIndirectBufferByteOffset(
-				params
+			if (params_is_direct) params?.buf else Buffers.getArray(params?.buf),
+			if (params_is_direct) Buffers.getDirectBufferByteOffset(params?.buf) else Buffers.getIndirectBufferByteOffset(
+				params?.buf
 			),
 			params_is_direct
 		)
@@ -1620,13 +1620,13 @@ object AngleNative: AngleWrapper {
 	 * @param params a direct or array-backed [java.nio.IntBuffer]
 	 */
 	override fun glGetUniformiv(program: Int, location: Int, params: OpusIntBuffer?) {
-		val params_is_direct: Boolean = Buffers.isDirect(params)
+		val params_is_direct: Boolean = Buffers.isDirect(params?.buf)
 		glGetUniformiv1(
 			program,
 			location,
-			if (params_is_direct) params else Buffers.getArray(params),
-			if (params_is_direct) Buffers.getDirectBufferByteOffset(params) else Buffers.getIndirectBufferByteOffset(
-				params
+			if (params_is_direct) params?.buf else Buffers.getArray(params?.buf),
+			if (params_is_direct) Buffers.getDirectBufferByteOffset(params?.buf) else Buffers.getIndirectBufferByteOffset(
+				params?.buf
 			),
 			params_is_direct
 		)
@@ -1653,12 +1653,12 @@ object AngleNative: AngleWrapper {
 	 * @param name a direct or array-backed [java.nio.ByteBuffer]
 	 */
 	override fun glGetUniformLocation(program: Int, name: OpusByteBuffer?): Int {
-		val name_is_direct: Boolean = Buffers.isDirect(name)
+		val name_is_direct: Boolean = Buffers.isDirect(name?.buf)
 		return glGetUniformLocation1(
 			program,
-			if (name_is_direct) name else Buffers.getArray(name),
-			if (name_is_direct) Buffers.getDirectBufferByteOffset(name) else Buffers.getIndirectBufferByteOffset(
-				name
+			if (name_is_direct) name?.buf else Buffers.getArray(name?.buf),
+			if (name_is_direct) Buffers.getDirectBufferByteOffset(name?.buf) else Buffers.getIndirectBufferByteOffset(
+				name?.buf
 			),
 			name_is_direct
 		)
@@ -1684,13 +1684,13 @@ object AngleNative: AngleWrapper {
 	 * @param params a direct or array-backed [java.nio.FloatBuffer]
 	 */
 	override fun glGetVertexAttribfv(index: Int, pname: Int, params: OpusFloatBuffer?) {
-		val params_is_direct: Boolean = Buffers.isDirect(params)
+		val params_is_direct: Boolean = Buffers.isDirect(params?.buf)
 		glGetVertexAttribfv1(
 			index,
 			pname,
-			if (params_is_direct) params else Buffers.getArray(params),
-			if (params_is_direct) Buffers.getDirectBufferByteOffset(params) else Buffers.getIndirectBufferByteOffset(
-				params
+			if (params_is_direct) params?.buf else Buffers.getArray(params?.buf),
+			if (params_is_direct) Buffers.getDirectBufferByteOffset(params?.buf) else Buffers.getIndirectBufferByteOffset(
+				params?.buf
 			),
 			params_is_direct
 		)
@@ -1717,13 +1717,13 @@ object AngleNative: AngleWrapper {
 	 * @param params a direct or array-backed [java.nio.IntBuffer]
 	 */
 	override fun glGetVertexAttribiv(index: Int, pname: Int, params: OpusIntBuffer?) {
-		val params_is_direct: Boolean = Buffers.isDirect(params)
+		val params_is_direct: Boolean = Buffers.isDirect(params?.buf)
 		glGetVertexAttribiv1(
 			index,
 			pname,
-			if (params_is_direct) params else Buffers.getArray(params),
-			if (params_is_direct) Buffers.getDirectBufferByteOffset(params) else Buffers.getIndirectBufferByteOffset(
-				params
+			if (params_is_direct) params?.buf else Buffers.getArray(params?.buf),
+			if (params_is_direct) Buffers.getDirectBufferByteOffset(params?.buf) else Buffers.getIndirectBufferByteOffset(
+				params?.buf
 			),
 			params_is_direct
 		)
@@ -1823,7 +1823,7 @@ object AngleNative: AngleWrapper {
 		type: Int,
 		pixels: OpusBuffer
 	) {
-		val pixels_is_direct: Boolean = Buffers.isDirect(pixels)
+		val pixels_is_direct: Boolean = Buffers.isDirect(pixels.buf)
 		glReadPixels1(
 			x,
 			y,
@@ -1831,9 +1831,9 @@ object AngleNative: AngleWrapper {
 			height,
 			format,
 			type,
-			if (pixels_is_direct) pixels else Buffers.getArray(pixels),
-			if (pixels_is_direct) Buffers.getDirectBufferByteOffset(pixels) else Buffers.getIndirectBufferByteOffset(
-				pixels
+			if (pixels_is_direct) pixels.buf else Buffers.getArray(pixels.buf),
+			if (pixels_is_direct) Buffers.getDirectBufferByteOffset(pixels.buf) else Buffers.getIndirectBufferByteOffset(
+				pixels.buf
 			),
 			pixels_is_direct
 		)
@@ -1877,19 +1877,19 @@ object AngleNative: AngleWrapper {
 		binary: OpusBuffer,
 		length: Int
 	) {
-		val shaders_is_direct: Boolean = Buffers.isDirect(shaders)
-		val binary_is_direct: Boolean = Buffers.isDirect(binary)
+		val shaders_is_direct: Boolean = Buffers.isDirect(shaders?.buf)
+		val binary_is_direct: Boolean = Buffers.isDirect(binary.buf)
 		glShaderBinary1(
 			count,
-			if (shaders_is_direct) shaders else Buffers.getArray(shaders),
-			if (shaders_is_direct) Buffers.getDirectBufferByteOffset(shaders) else Buffers.getIndirectBufferByteOffset(
-				shaders
+			if (shaders_is_direct) shaders?.buf else Buffers.getArray(shaders?.buf),
+			if (shaders_is_direct) Buffers.getDirectBufferByteOffset(shaders?.buf) else Buffers.getIndirectBufferByteOffset(
+				shaders?.buf
 			),
 			shaders_is_direct,
 			binaryFormat,
-			if (binary_is_direct) binary else Buffers.getArray(binary),
-			if (binary_is_direct) Buffers.getDirectBufferByteOffset(binary) else Buffers.getIndirectBufferByteOffset(
-				binary
+			if (binary_is_direct) binary.buf else Buffers.getArray(binary.buf),
+			if (binary_is_direct) Buffers.getDirectBufferByteOffset(binary.buf) else Buffers.getIndirectBufferByteOffset(
+				binary.buf
 			),
 			binary_is_direct,
 			length
@@ -1924,16 +1924,16 @@ object AngleNative: AngleWrapper {
 		length: Int
 	) {
 		if (shaders != null && shaders.size <= shaders_offset) throw RuntimeException("array offset argument \"shaders_offset\" (" + shaders_offset + ") equals or exceeds array length (" + shaders.size + ")")
-		val binary_is_direct: Boolean = Buffers.isDirect(binary)
+		val binary_is_direct: Boolean = Buffers.isDirect(binary.buf)
 		glShaderBinary1(
 			count,
 			shaders,
 			Buffers.SIZEOF_INT * shaders_offset,
 			false,
 			binaryFormat,
-			if (binary_is_direct) binary else Buffers.getArray(binary),
-			if (binary_is_direct) Buffers.getDirectBufferByteOffset(binary) else Buffers.getIndirectBufferByteOffset(
-				binary
+			if (binary_is_direct) binary.buf else Buffers.getArray(binary.buf),
+			if (binary_is_direct) Buffers.getDirectBufferByteOffset(binary.buf) else Buffers.getIndirectBufferByteOffset(
+				binary.buf
 			),
 			binary_is_direct,
 			length
@@ -2040,7 +2040,7 @@ object AngleNative: AngleWrapper {
 		type: Int,
 		pixels: OpusBuffer
 	) {
-		val pixels_is_direct: Boolean = Buffers.isDirect(pixels)
+		val pixels_is_direct: Boolean = Buffers.isDirect(pixels.buf)
 		glTexImage2D1(
 			target,
 			level,
@@ -2050,9 +2050,9 @@ object AngleNative: AngleWrapper {
 			border,
 			format,
 			type,
-			if (pixels_is_direct) pixels else Buffers.getArray(pixels),
-			if (pixels_is_direct) Buffers.getDirectBufferByteOffset(pixels) else Buffers.getIndirectBufferByteOffset(
-				pixels
+			if (pixels_is_direct) pixels.buf else Buffers.getArray(pixels.buf),
+			if (pixels_is_direct) Buffers.getDirectBufferByteOffset(pixels.buf) else Buffers.getIndirectBufferByteOffset(
+				pixels.buf
 			),
 			pixels_is_direct
 		)
@@ -2082,13 +2082,13 @@ object AngleNative: AngleWrapper {
 	 * @param params a direct or array-backed [java.nio.FloatBuffer]
 	 */
 	override fun glTexParameterfv(target: Int, pname: Int, params: OpusFloatBuffer?) {
-		val params_is_direct: Boolean = Buffers.isDirect(params)
+		val params_is_direct: Boolean = Buffers.isDirect(params?.buf)
 		glTexParameterfv1(
 			target,
 			pname,
-			if (params_is_direct) params else Buffers.getArray(params),
-			if (params_is_direct) Buffers.getDirectBufferByteOffset(params) else Buffers.getIndirectBufferByteOffset(
-				params
+			if (params_is_direct) params?.buf else Buffers.getArray(params?.buf),
+			if (params_is_direct) Buffers.getDirectBufferByteOffset(params?.buf) else Buffers.getIndirectBufferByteOffset(
+				params?.buf
 			),
 			params_is_direct
 		)
@@ -2118,13 +2118,13 @@ object AngleNative: AngleWrapper {
 	 * @param params a direct or array-backed [java.nio.IntBuffer]
 	 */
 	override fun glTexParameteriv(target: Int, pname: Int, params: OpusIntBuffer?) {
-		val params_is_direct: Boolean = Buffers.isDirect(params)
+		val params_is_direct: Boolean = Buffers.isDirect(params?.buf)
 		glTexParameteriv1(
 			target,
 			pname,
-			if (params_is_direct) params else Buffers.getArray(params),
-			if (params_is_direct) Buffers.getDirectBufferByteOffset(params) else Buffers.getIndirectBufferByteOffset(
-				params
+			if (params_is_direct) params?.buf else Buffers.getArray(params?.buf),
+			if (params_is_direct) Buffers.getDirectBufferByteOffset(params?.buf) else Buffers.getIndirectBufferByteOffset(
+				params?.buf
 			),
 			params_is_direct
 		)
@@ -2161,7 +2161,7 @@ object AngleNative: AngleWrapper {
 		type: Int,
 		pixels: OpusBuffer
 	) {
-		val pixels_is_direct: Boolean = Buffers.isDirect(pixels)
+		val pixels_is_direct: Boolean = Buffers.isDirect(pixels.buf)
 		glTexSubImage2D1(
 			target,
 			level,
@@ -2171,9 +2171,9 @@ object AngleNative: AngleWrapper {
 			height,
 			format,
 			type,
-			if (pixels_is_direct) pixels else Buffers.getArray(pixels),
-			if (pixels_is_direct) Buffers.getDirectBufferByteOffset(pixels) else Buffers.getIndirectBufferByteOffset(
-				pixels
+			if (pixels_is_direct) pixels.buf else Buffers.getArray(pixels.buf),
+			if (pixels_is_direct) Buffers.getDirectBufferByteOffset(pixels.buf) else Buffers.getIndirectBufferByteOffset(
+				pixels.buf
 			),
 			pixels_is_direct
 		)
@@ -2203,13 +2203,13 @@ object AngleNative: AngleWrapper {
 	 * @param value a direct or array-backed [java.nio.FloatBuffer]
 	 */
 	override fun glUniform1fv(location: Int, count: Int, value: OpusFloatBuffer?) {
-		val value_is_direct: Boolean = Buffers.isDirect(value)
+		val value_is_direct: Boolean = Buffers.isDirect(value?.buf)
 		glUniform1fv1(
 			location,
 			count,
-			if (value_is_direct) value else Buffers.getArray(value),
-			if (value_is_direct) Buffers.getDirectBufferByteOffset(value) else Buffers.getIndirectBufferByteOffset(
-				value
+			if (value_is_direct) value?.buf else Buffers.getArray(value?.buf),
+			if (value_is_direct) Buffers.getDirectBufferByteOffset(value?.buf) else Buffers.getIndirectBufferByteOffset(
+				value?.buf
 			),
 			value_is_direct
 		)
@@ -2239,13 +2239,13 @@ object AngleNative: AngleWrapper {
 	 * @param value a direct or array-backed [java.nio.IntBuffer]
 	 */
 	override fun glUniform1iv(location: Int, count: Int, value: OpusIntBuffer?) {
-		val value_is_direct: Boolean = Buffers.isDirect(value)
+		val value_is_direct: Boolean = Buffers.isDirect(value?.buf)
 		glUniform1iv1(
 			location,
 			count,
-			if (value_is_direct) value else Buffers.getArray(value),
-			if (value_is_direct) Buffers.getDirectBufferByteOffset(value) else Buffers.getIndirectBufferByteOffset(
-				value
+			if (value_is_direct) value?.buf else Buffers.getArray(value?.buf),
+			if (value_is_direct) Buffers.getDirectBufferByteOffset(value?.buf) else Buffers.getIndirectBufferByteOffset(
+				value?.buf
 			),
 			value_is_direct
 		)
@@ -2275,13 +2275,13 @@ object AngleNative: AngleWrapper {
 	 * @param value a direct or array-backed [java.nio.FloatBuffer]
 	 */
 	override fun glUniform2fv(location: Int, count: Int, value: OpusFloatBuffer?) {
-		val value_is_direct: Boolean = Buffers.isDirect(value)
+		val value_is_direct: Boolean = Buffers.isDirect(value?.buf)
 		glUniform2fv1(
 			location,
 			count,
-			if (value_is_direct) value else Buffers.getArray(value),
-			if (value_is_direct) Buffers.getDirectBufferByteOffset(value) else Buffers.getIndirectBufferByteOffset(
-				value
+			if (value_is_direct) value?.buf else Buffers.getArray(value?.buf),
+			if (value_is_direct) Buffers.getDirectBufferByteOffset(value?.buf) else Buffers.getIndirectBufferByteOffset(
+				value?.buf
 			),
 			value_is_direct
 		)
@@ -2311,13 +2311,13 @@ object AngleNative: AngleWrapper {
 	 * @param value a direct or array-backed [java.nio.IntBuffer]
 	 */
 	override fun glUniform2iv(location: Int, count: Int, value: OpusIntBuffer?) {
-		val value_is_direct: Boolean = Buffers.isDirect(value)
+		val value_is_direct: Boolean = Buffers.isDirect(value?.buf)
 		glUniform2iv1(
 			location,
 			count,
-			if (value_is_direct) value else Buffers.getArray(value),
-			if (value_is_direct) Buffers.getDirectBufferByteOffset(value) else Buffers.getIndirectBufferByteOffset(
-				value
+			if (value_is_direct) value?.buf else Buffers.getArray(value?.buf),
+			if (value_is_direct) Buffers.getDirectBufferByteOffset(value?.buf) else Buffers.getIndirectBufferByteOffset(
+				value?.buf
 			),
 			value_is_direct
 		)
@@ -2347,13 +2347,13 @@ object AngleNative: AngleWrapper {
 	 * @param value a direct or array-backed [java.nio.FloatBuffer]
 	 */
 	override fun glUniform3fv(location: Int, count: Int, value: OpusFloatBuffer?) {
-		val value_is_direct: Boolean = Buffers.isDirect(value)
+		val value_is_direct: Boolean = Buffers.isDirect(value?.buf)
 		glUniform3fv1(
 			location,
 			count,
-			if (value_is_direct) value else Buffers.getArray(value),
-			if (value_is_direct) Buffers.getDirectBufferByteOffset(value) else Buffers.getIndirectBufferByteOffset(
-				value
+			if (value_is_direct) value?.buf else Buffers.getArray(value?.buf),
+			if (value_is_direct) Buffers.getDirectBufferByteOffset(value?.buf) else Buffers.getIndirectBufferByteOffset(
+				value?.buf
 			),
 			value_is_direct
 		)
@@ -2383,13 +2383,13 @@ object AngleNative: AngleWrapper {
 	 * @param value a direct or array-backed [java.nio.IntBuffer]
 	 */
 	override fun glUniform3iv(location: Int, count: Int, value: OpusIntBuffer?) {
-		val value_is_direct: Boolean = Buffers.isDirect(value)
+		val value_is_direct: Boolean = Buffers.isDirect(value?.buf)
 		glUniform3iv1(
 			location,
 			count,
-			if (value_is_direct) value else Buffers.getArray(value),
-			if (value_is_direct) Buffers.getDirectBufferByteOffset(value) else Buffers.getIndirectBufferByteOffset(
-				value
+			if (value_is_direct) value?.buf else Buffers.getArray(value?.buf),
+			if (value_is_direct) Buffers.getDirectBufferByteOffset(value?.buf) else Buffers.getIndirectBufferByteOffset(
+				value?.buf
 			),
 			value_is_direct
 		)
@@ -2419,13 +2419,13 @@ object AngleNative: AngleWrapper {
 	 * @param value a direct or array-backed [java.nio.FloatBuffer]
 	 */
 	override fun glUniform4fv(location: Int, count: Int, value: OpusFloatBuffer?) {
-		val value_is_direct: Boolean = Buffers.isDirect(value)
+		val value_is_direct: Boolean = Buffers.isDirect(value?.buf)
 		glUniform4fv1(
 			location,
 			count,
-			if (value_is_direct) value else Buffers.getArray(value),
-			if (value_is_direct) Buffers.getDirectBufferByteOffset(value) else Buffers.getIndirectBufferByteOffset(
-				value
+			if (value_is_direct) value?.buf else Buffers.getArray(value?.buf),
+			if (value_is_direct) Buffers.getDirectBufferByteOffset(value?.buf) else Buffers.getIndirectBufferByteOffset(
+				value?.buf
 			),
 			value_is_direct
 		)
@@ -2455,13 +2455,13 @@ object AngleNative: AngleWrapper {
 	 * @param value a direct or array-backed [java.nio.IntBuffer]
 	 */
 	override fun glUniform4iv(location: Int, count: Int, value: OpusIntBuffer?) {
-		val value_is_direct: Boolean = Buffers.isDirect(value)
+		val value_is_direct: Boolean = Buffers.isDirect(value?.buf)
 		glUniform4iv1(
 			location,
 			count,
-			if (value_is_direct) value else Buffers.getArray(value),
-			if (value_is_direct) Buffers.getDirectBufferByteOffset(value) else Buffers.getIndirectBufferByteOffset(
-				value
+			if (value_is_direct) value?.buf else Buffers.getArray(value?.buf),
+			if (value_is_direct) Buffers.getDirectBufferByteOffset(value?.buf) else Buffers.getIndirectBufferByteOffset(
+				value?.buf
 			),
 			value_is_direct
 		)
@@ -2488,14 +2488,14 @@ object AngleNative: AngleWrapper {
 	 * @param value a direct or array-backed [java.nio.FloatBuffer]
 	 */
 	override fun glUniformMatrix2fv(location: Int, count: Int, transpose: Byte, value: OpusFloatBuffer?) {
-		val value_is_direct: Boolean = Buffers.isDirect(value)
+		val value_is_direct: Boolean = Buffers.isDirect(value?.buf)
 		glUniformMatrix2fv1(
 			location,
 			count,
 			transpose,
-			if (value_is_direct) value else Buffers.getArray(value),
-			if (value_is_direct) Buffers.getDirectBufferByteOffset(value) else Buffers.getIndirectBufferByteOffset(
-				value
+			if (value_is_direct) value?.buf else Buffers.getArray(value?.buf),
+			if (value_is_direct) Buffers.getDirectBufferByteOffset(value?.buf) else Buffers.getIndirectBufferByteOffset(
+				value?.buf
 			),
 			value_is_direct
 		)
@@ -2536,14 +2536,14 @@ object AngleNative: AngleWrapper {
 	 * @param value a direct or array-backed [java.nio.FloatBuffer]
 	 */
 	override fun glUniformMatrix3fv(location: Int, count: Int, transpose: Byte, value: OpusFloatBuffer?) {
-		val value_is_direct: Boolean = Buffers.isDirect(value)
+		val value_is_direct: Boolean = Buffers.isDirect(value?.buf)
 		glUniformMatrix3fv1(
 			location,
 			count,
 			transpose,
-			if (value_is_direct) value else Buffers.getArray(value),
-			if (value_is_direct) Buffers.getDirectBufferByteOffset(value) else Buffers.getIndirectBufferByteOffset(
-				value
+			if (value_is_direct) value?.buf else Buffers.getArray(value?.buf),
+			if (value_is_direct) Buffers.getDirectBufferByteOffset(value?.buf) else Buffers.getIndirectBufferByteOffset(
+				value?.buf
 			),
 			value_is_direct
 		)
@@ -2584,14 +2584,14 @@ object AngleNative: AngleWrapper {
 	 * @param value a direct or array-backed [java.nio.FloatBuffer]
 	 */
 	override fun glUniformMatrix4fv(location: Int, count: Int, transpose: Byte, value: OpusFloatBuffer?) {
-		val value_is_direct: Boolean = Buffers.isDirect(value)
+		val value_is_direct: Boolean = Buffers.isDirect(value?.buf)
 		glUniformMatrix4fv1(
 			location,
 			count,
 			transpose,
-			if (value_is_direct) value else Buffers.getArray(value),
-			if (value_is_direct) Buffers.getDirectBufferByteOffset(value) else Buffers.getIndirectBufferByteOffset(
-				value
+			if (value_is_direct) value?.buf else Buffers.getArray(value?.buf),
+			if (value_is_direct) Buffers.getDirectBufferByteOffset(value?.buf) else Buffers.getIndirectBufferByteOffset(
+				value?.buf
 			),
 			value_is_direct
 		)
@@ -2641,12 +2641,12 @@ object AngleNative: AngleWrapper {
 	 * @param v a direct or array-backed [java.nio.FloatBuffer]
 	 */
 	override fun glVertexAttrib1fv(index: Int, v: OpusFloatBuffer?) {
-		val v_is_direct: Boolean = Buffers.isDirect(v)
+		val v_is_direct: Boolean = Buffers.isDirect(v?.buf)
 		glVertexAttrib1fv1(
 			index,
-			if (v_is_direct) v else Buffers.getArray(v),
-			if (v_is_direct) Buffers.getDirectBufferByteOffset(v) else Buffers.getIndirectBufferByteOffset(
-				v
+			if (v_is_direct) v?.buf else Buffers.getArray(v?.buf),
+			if (v_is_direct) Buffers.getDirectBufferByteOffset(v?.buf) else Buffers.getIndirectBufferByteOffset(
+				v?.buf
 			),
 			v_is_direct
 		)
@@ -2675,12 +2675,12 @@ object AngleNative: AngleWrapper {
 	 * @param v a direct or array-backed [java.nio.FloatBuffer]
 	 */
 	override fun glVertexAttrib2fv(index: Int, v: OpusFloatBuffer?) {
-		val v_is_direct: Boolean = Buffers.isDirect(v)
+		val v_is_direct: Boolean = Buffers.isDirect(v?.buf)
 		glVertexAttrib2fv1(
 			index,
-			if (v_is_direct) v else Buffers.getArray(v),
-			if (v_is_direct) Buffers.getDirectBufferByteOffset(v) else Buffers.getIndirectBufferByteOffset(
-				v
+			if (v_is_direct) v?.buf else Buffers.getArray(v?.buf),
+			if (v_is_direct) Buffers.getDirectBufferByteOffset(v?.buf) else Buffers.getIndirectBufferByteOffset(
+				v?.buf
 			),
 			v_is_direct
 		)
@@ -2709,12 +2709,12 @@ object AngleNative: AngleWrapper {
 	 * @param v a direct or array-backed [java.nio.FloatBuffer]
 	 */
 	override fun glVertexAttrib3fv(index: Int, v: OpusFloatBuffer?) {
-		val v_is_direct: Boolean = Buffers.isDirect(v)
+		val v_is_direct: Boolean = Buffers.isDirect(v?.buf)
 		glVertexAttrib3fv1(
 			index,
-			if (v_is_direct) v else Buffers.getArray(v),
-			if (v_is_direct) Buffers.getDirectBufferByteOffset(v) else Buffers.getIndirectBufferByteOffset(
-				v
+			if (v_is_direct) v?.buf else Buffers.getArray(v?.buf),
+			if (v_is_direct) Buffers.getDirectBufferByteOffset(v?.buf) else Buffers.getIndirectBufferByteOffset(
+				v?.buf
 			),
 			v_is_direct
 		)
@@ -2743,12 +2743,12 @@ object AngleNative: AngleWrapper {
 	 * @param v a direct or array-backed [java.nio.FloatBuffer]
 	 */
 	override fun glVertexAttrib4fv(index: Int, v: OpusFloatBuffer?) {
-		val v_is_direct: Boolean = Buffers.isDirect(v)
+		val v_is_direct: Boolean = Buffers.isDirect(v?.buf)
 		glVertexAttrib4fv1(
 			index,
-			if (v_is_direct) v else Buffers.getArray(v),
-			if (v_is_direct) Buffers.getDirectBufferByteOffset(v) else Buffers.getIndirectBufferByteOffset(
-				v
+			if (v_is_direct) v?.buf else Buffers.getArray(v?.buf),
+			if (v_is_direct) Buffers.getDirectBufferByteOffset(v?.buf) else Buffers.getIndirectBufferByteOffset(
+				v?.buf
 			),
 			v_is_direct
 		)
@@ -2781,16 +2781,16 @@ object AngleNative: AngleWrapper {
 		stride: Int,
 		pointer: OpusBuffer
 	) {
-		val pointer_is_direct: Boolean = Buffers.isDirect(pointer)
+		val pointer_is_direct: Boolean = Buffers.isDirect(pointer.buf)
 		glVertexAttribPointer1(
 			index,
 			size,
 			type,
 			normalized,
 			stride,
-			if (pointer_is_direct) pointer else Buffers.getArray(pointer),
-			if (pointer_is_direct) Buffers.getDirectBufferByteOffset(pointer) else Buffers.getIndirectBufferByteOffset(
-				pointer
+			if (pointer_is_direct) pointer.buf else Buffers.getArray(pointer.buf),
+			if (pointer_is_direct) Buffers.getDirectBufferByteOffset(pointer.buf) else Buffers.getIndirectBufferByteOffset(
+				pointer.buf
 			),
 			pointer_is_direct
 		)

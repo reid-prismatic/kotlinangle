@@ -21,5 +21,9 @@ actual class OpusByteBuffer : OpusBuffer() {
 		actual fun allocate(capacity: Int): OpusByteBuffer {
 			TODO("Not yet implemented")
 		}
+
+		actual fun wrap(array: ByteArray): OpusByteBuffer {
+			TODO("Not yet implemented")
+		}
 	}
 }

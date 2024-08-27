@@ -21,5 +21,9 @@ actual class OpusFloatBuffer : OpusBuffer() {
 		actual fun allocate(capacity: Int): OpusFloatBuffer {
 			TODO("Not yet implemented")
 		}
+
+		actual fun wrap(array: FloatArray): OpusFloatBuffer {
+			TODO("Not yet implemented")
+		}
 	}
 }
