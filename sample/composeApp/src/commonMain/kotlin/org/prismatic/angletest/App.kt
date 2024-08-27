@@ -12,9 +12,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.prismatic.kotlinangle.getAngleWrapper
-import org.prismatic.opus.Opus
-import org.prismatic.opus.OpusView
-import org.prismatic.opus.visualrender.VisualRender
+import org.prismatic.kotlinangle.opuscopy.Opus
+import org.prismatic.kotlinangle.opuscopy.OpusView
+import org.prismatic.kotlinangle.opuscopy.composable.core.VisualRender
+import org.prismatic.kotlinangle.opuscopy.rememberOpusPlayer
+
+//import org.prismatic.opus.Opus
+//import org.prismatic.opus.OpusView
+//import org.prismatic.opus.visualrender.VisualRender
 
 @Composable
 @Preview
@@ -22,18 +27,19 @@ fun App() {
 	MaterialTheme {
 		Box(Modifier.padding(50.dp)) {
 			val color = Color.Blue
-			val angle = remember { getAngleWrapper() }
+			//val angle = remember { getAngleWrapper() }
 
 			val opus = remember {
 				Opus {
 					VisualRender {
 						onRender {
-							//angle.fillScreenRGB(color.red, color.green, color.blue)
+							fillScreenRGB(color.red, color.green, color.blue)
 						}
 					}
 				}
 			}
-			OpusView(opus, Modifier.fillMaxWidth().height(400.dp))
+			val opusPlayer = rememberOpusPlayer(opus)
+			OpusView(opusPlayer, Modifier.fillMaxWidth().height(400.dp))
 		}
 	}
 }

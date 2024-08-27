@@ -67,18 +67,18 @@ internal fun makeVisualRenderContext(gl: GLVER) = with(gl){ object : CommonVisua
             1f,  1f, 1f, 0f,
         )
         val tex = makeTexture()
-        testProgram = createProgramFromResources(
-            vertexShaderResourceId = "vertex",
-            fragmentShaderResourceId = "fragment"
-        )
-        testTexProgram = createProgramFromResources(
-            vertexShaderResourceId = "texvertex",
-            fragmentShaderResourceId = "texfragment"
-        )
-        textured3DShader = createProgramFromResources(
-            vertexShaderResourceId = "mesh_vertex",
-            fragmentShaderResourceId = "mesh_fragment"
-        )
+//        testProgram = createProgramFromResources(
+//            vertexShaderResourceId = "vertex",
+//            fragmentShaderResourceId = "fragment"
+//        )
+//        testTexProgram = createProgramFromResources(
+//            vertexShaderResourceId = "texvertex",
+//            fragmentShaderResourceId = "texfragment"
+//        )
+//        textured3DShader = createProgramFromResources(
+//            vertexShaderResourceId = "mesh_vertex",
+//            fragmentShaderResourceId = "mesh_fragment"
+//        )
         textured3DShader_transform = glGetUniformLocation(textured3DShader,stringToOpusByteBuffer("transform"))
         textured3DShader_texture = glGetUniformLocation(textured3DShader,stringToOpusByteBuffer("textureSampler"))
     }
@@ -291,6 +291,8 @@ internal fun makeVisualRenderContext(gl: GLVER) = with(gl){ object : CommonVisua
         checkGLErrors()
     }
 
-    init { setup() }
+    init {
+        setup()
+    }
 
 }}
