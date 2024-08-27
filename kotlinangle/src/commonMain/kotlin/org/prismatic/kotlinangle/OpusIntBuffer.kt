@@ -8,5 +8,6 @@ expect class OpusIntBuffer : OpusBuffer {
 	fun array(): IntArray
 	companion object {
 		fun allocate(capacity: Int): OpusIntBuffer
+		fun wrap(array: IntArray): OpusIntBuffer
 	}
 }

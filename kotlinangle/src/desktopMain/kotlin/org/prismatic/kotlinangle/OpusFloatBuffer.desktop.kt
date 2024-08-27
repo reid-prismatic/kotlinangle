@@ -18,6 +18,10 @@ actual class OpusFloatBuffer(private val floatBuffer: FloatBuffer) : OpusBuffer(
 		actual fun allocate(capacity: Int): OpusFloatBuffer {
 			return OpusFloatBuffer(java.nio.FloatBuffer.allocate(capacity))
 		}
+
+		actual fun wrap(array: FloatArray): OpusFloatBuffer {
+			return OpusFloatBuffer(java.nio.FloatBuffer.wrap(array))
+		}
 	}
 
 	override val buf: FloatBuffer

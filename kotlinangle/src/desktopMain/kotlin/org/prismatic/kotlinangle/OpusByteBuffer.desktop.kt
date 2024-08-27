@@ -18,6 +18,10 @@ actual class OpusByteBuffer(private val byteBuffer: ByteBuffer) : OpusBuffer(byt
 		actual fun allocate(capacity: Int): OpusByteBuffer {
 			return OpusByteBuffer(java.nio.ByteBuffer.allocate(capacity))
 		}
+
+		actual fun wrap(array: ByteArray): OpusByteBuffer {
+			return OpusByteBuffer(java.nio.ByteBuffer.wrap(array))
+		}
 	}
 
 	override val buf: ByteBuffer

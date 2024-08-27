@@ -7,5 +7,6 @@ expect class OpusFloatBuffer : OpusBuffer {
 	fun array(): FloatArray
 	companion object {
 		fun allocate(capacity: Int): OpusFloatBuffer
+		fun wrap(array: FloatArray): OpusFloatBuffer
 	}
 }

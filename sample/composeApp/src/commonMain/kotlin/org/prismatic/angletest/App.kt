@@ -28,7 +28,7 @@ fun App() {
 				Opus {
 					VisualRender {
 						onRender {
-							angle.fillScreenRGB(color.red, color.green, color.blue)
+							//angle.fillScreenRGB(color.red, color.green, color.blue)
 						}
 					}
 				}
