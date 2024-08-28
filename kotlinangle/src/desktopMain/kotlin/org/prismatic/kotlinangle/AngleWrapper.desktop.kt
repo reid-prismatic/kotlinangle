@@ -38,4 +38,14 @@ import java.nio.IntBuffer
 //}
 
 //actual fun getAngleWrapper(): AngleWrapper = AngleWrapperJvm()
-actual fun getAngleWrapper(): AngleWrapper = AngleNative
+//actual fun getAngleWrapper(): AngleWrapper {
+//	val angle = AngleNative()
+//	angle.createPrismAngle()
+//
+//	return angle
+//}
+//actual fun getAngleWrapper(): AngleWrapper = AngleNative
+actual fun getAngleWrapper(): AngleWrapper {
+	//AngleNative.createPrismAngle()
+	return AngleNative
+}

@@ -173,7 +173,7 @@ object AngleNative: AngleWrapper {
 	external override fun glClear(mask: Int)
 
 	/** Interface to C language function: <br></br> `void glClearColor(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha)`<br></br>    */
-	external override fun glClearColor(red: Float, green: Float, blue: Float, alpha: Float)
+	external override fun glClearColor(red: Float, green: Float, blue: Float, alpha: Float): Int
 
 	/** Interface to C language function: <br></br> `void glClearDepthf(GLfloat d)`<br></br>    */
 	external override fun glClearDepthf(d: Float)
@@ -2809,7 +2809,7 @@ object AngleNative: AngleWrapper {
 		stride: Int,
 		pointer: OpusBuffer
 	) {
-		
+
 		val pointer_is_direct: Boolean = Buffers.isDirect(pointer.buf)
 		glVertexAttribPointer1(
 			index,
@@ -2841,6 +2841,13 @@ object AngleNative: AngleWrapper {
 
 	/** Interface to C language function: <br></br> `void glViewport(GLint x, GLint y, GLsizei width, GLsizei height)`<br></br>    */
 	external override fun glViewport(x: Int, y: Int, width: Int, height: Int)
+
+	external fun createPrismAngle(): Long
+	var nativePtr: Long = createPrismAngle()
+	external fun fillScreenRGBAngle(nativePtr: Long, red: Float, green: Float, blue: Float): Int
+	override fun fillScreenRGB(red: Float, green: Float, blue: Float): Int {
+		return fillScreenRGBAngle(nativePtr, red, green, blue)
+	}
 } // end of class AngleNative
 
 

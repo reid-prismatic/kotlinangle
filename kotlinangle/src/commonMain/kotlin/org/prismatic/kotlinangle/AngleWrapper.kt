@@ -7,6 +7,8 @@ import org.prismatic.kotlinangle.OpusBuffer.OpusIntBuffer
 
 interface AngleWrapper {
 
+	fun fillScreenRGB(red: Float, green: Float, blue: Float): Int
+
 	fun glActiveTexture(texture: Int)
 
 	fun glAttachShader(program: Int, shader: Int)
@@ -41,7 +43,7 @@ interface AngleWrapper {
 
 	fun glClear(mask: Int)
 
-	fun glClearColor(red: Float, green: Float, blue: Float, alpha: Float)
+	fun glClearColor(red: Float, green: Float, blue: Float, alpha: Float): Int
 
 	fun glClearDepthf(d: Float)
 

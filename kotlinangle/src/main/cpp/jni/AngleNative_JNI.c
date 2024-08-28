@@ -215,9 +215,10 @@ Java_org_prismatic_kotlinangle_AngleNative_glClear__I(JNIEnv *env, jclass _unuse
  *    Java method: void glClearColor(float red, float green, float blue, float alpha)
  *     C function: void glClearColor(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha)
  */
-JNIEXPORT void JNICALL 
+JNIEXPORT jint JNICALL 
 Java_org_prismatic_kotlinangle_AngleNative_glClearColor__FFFF(JNIEnv *env, jclass _unused, jfloat red, jfloat green, jfloat blue, jfloat alpha) {
   glClearColor((GLfloat) red, (GLfloat) green, (GLfloat) blue, (GLfloat) alpha);
+  return 33;
 }
 
 

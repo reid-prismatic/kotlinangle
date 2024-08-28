@@ -79,8 +79,8 @@ internal fun makeVisualRenderContext(gl: GLVER) = with(gl){ object : CommonVisua
 //            vertexShaderResourceId = "mesh_vertex",
 //            fragmentShaderResourceId = "mesh_fragment"
 //        )
-        textured3DShader_transform = glGetUniformLocation(textured3DShader,stringToOpusByteBuffer("transform"))
-        textured3DShader_texture = glGetUniformLocation(textured3DShader,stringToOpusByteBuffer("textureSampler"))
+//        textured3DShader_transform = glGetUniformLocation(textured3DShader,stringToOpusByteBuffer("transform"))
+//        textured3DShader_texture = glGetUniformLocation(textured3DShader,stringToOpusByteBuffer("textureSampler"))
     }
 
     override fun dispose() {
@@ -89,8 +89,11 @@ internal fun makeVisualRenderContext(gl: GLVER) = with(gl){ object : CommonVisua
     }
 
     override fun fillScreenRGB(red: Float, green: Float, blue: Float) {
-        glClearColor(red, green, blue, 1f)
-        glClear(AngleWrapper.GL_COLOR_BUFFER_BIT)
+//        val ret = glClearColor(red, green, blue, 1f)
+//        println(ret)
+//        glClear(AngleWrapper.GL_COLOR_BUFFER_BIT)
+        val ret = gl.fillScreenRGB(red, green, blue)
+        println(ret)
     }
 
     override fun createTexture(imageBitmap: ImageBitmap): OpusTexture {

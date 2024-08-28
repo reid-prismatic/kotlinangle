@@ -5,12 +5,12 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.awt.SwingPanel
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalWindowInfo
 import com.jogamp.opengl.GLCapabilities
 import com.jogamp.opengl.GLProfile
 import com.jogamp.opengl.awt.GLCanvas
 import kotlinx.coroutines.flow.StateFlow
 import org.prismatic.kotlinangle.opuscopy.renderer.OpusRenderer
-import org.prismatic.opus.OpusDesktopRenderer
 import java.awt.BorderLayout
 import java.awt.Dimension
 import javax.swing.JPanel
@@ -33,6 +33,7 @@ internal actual fun PlatformOpusView(
 				val glcaps = GLCapabilities(glprofile)
 				val canvas = GLCanvas(glcaps)
 				canvas.addGLEventListener(OpusDesktopRenderer(coroutineScope, treeFlow, rendererFactory))
+
 				canvas.preferredSize = Dimension(200,100)
 				add(canvas, BorderLayout.CENTER)
 			}
