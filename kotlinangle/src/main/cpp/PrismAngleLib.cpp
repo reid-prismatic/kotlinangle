@@ -1,8 +1,8 @@
 #include <iostream>
 #include "PrismAngleLib.h"
 
-PrismAngleLib::PrismAngleLib() {    
-    initAngle();    
+PrismAngleLib::PrismAngleLib(long windowHandle) {    
+    initAngle(windowHandle);    
     printf("initialized PrismAngleLib");
 }
 
@@ -19,7 +19,7 @@ int PrismAngleLib::fillScreenRGBAngle(float red, float green, float blue) {
     return 0;
 }
 
-int PrismAngleLib::initAngle() {
+int PrismAngleLib::initAngle(long windowHandle) {
     // Initialize EGL
     display = eglGetDisplay(EGL_DEFAULT_DISPLAY);
     if (display == EGL_NO_DISPLAY) {
@@ -51,7 +51,8 @@ int PrismAngleLib::initAngle() {
         EGL_HEIGHT, 128,
         EGL_NONE
     };
-    EGLSurface surface = eglCreatePbufferSurface(display, config, surfaceAttribs);
+    //EGLSurface surface = eglCreatePbufferSurface(display, config, surfaceAttribs);
+    EGLSurface surface = eglCreateWindowSurface(display, config, (EGLNativeWindowType)windowHandle, nullptr);
     if (surface == EGL_NO_SURFACE) {
         std::cerr << "Unable to create EGL surface" << std::endl;
         return -1;

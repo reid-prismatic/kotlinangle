@@ -15,7 +15,7 @@ import java.nio.ByteBuffer
 //import java.nio.IntBuffer
 
 
-object AngleNative: AngleWrapper {
+class AngleNative(val windowHandle: Long): AngleWrapper {
 	init {
 		try {
 //			val info = DynamicLibraryBundleInfoz
@@ -2842,12 +2842,18 @@ object AngleNative: AngleWrapper {
 	/** Interface to C language function: <br></br> `void glViewport(GLint x, GLint y, GLsizei width, GLsizei height)`<br></br>    */
 	external override fun glViewport(x: Int, y: Int, width: Int, height: Int)
 
-	external fun createPrismAngle(): Long
-	var nativePtr: Long = createPrismAngle()
+	external fun createPrismAngle(windowHandle: Long): Long
+	var nativePtr: Long = createPrismAngle(windowHandle)
 	external fun fillScreenRGBAngle(nativePtr: Long, red: Float, green: Float, blue: Float): Int
 	override fun fillScreenRGB(red: Float, green: Float, blue: Float): Int {
 		return fillScreenRGBAngle(nativePtr, red, green, blue)
 	}
+	external fun makeAngleContextCurrent(nativePtr: Long): Int
+
+	override fun setCurrent(): Int {
+		return makeAngleContextCurrent(nativePtr)
+	}
+
 } // end of class AngleNative
 
 

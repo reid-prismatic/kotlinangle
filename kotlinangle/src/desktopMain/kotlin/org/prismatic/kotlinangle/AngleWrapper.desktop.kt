@@ -1,8 +1,5 @@
 package org.prismatic.kotlinangle
 
-import java.nio.FloatBuffer
-import java.nio.IntBuffer
-
 //class AngleWrapperJvm: AngleWrapper {
 //	//private val angleNative: AngleNative = AngleNative()
 //	//private val contextPtr: Long = angleNative.createPrismAngle()
@@ -45,7 +42,7 @@ import java.nio.IntBuffer
 //	return angle
 //}
 //actual fun getAngleWrapper(): AngleWrapper = AngleNative
-actual fun getAngleWrapper(): AngleWrapper {
+actual fun getAngleWrapper(windowHandle: Long): AngleWrapper {
 	//AngleNative.createPrismAngle()
-	return AngleNative
+	return AngleNative(windowHandle)
 }

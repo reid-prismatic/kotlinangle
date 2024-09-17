@@ -2,8 +2,6 @@ package org.prismatic.kotlinangle.opuscopy
 
 import androidx.compose.runtime.snapshots.ObserverHandle
 import androidx.compose.runtime.snapshots.Snapshot
-import com.jogamp.opengl.GLAutoDrawable
-import com.jogamp.opengl.GLEventListener
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi

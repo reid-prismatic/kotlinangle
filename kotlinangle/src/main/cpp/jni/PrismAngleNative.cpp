@@ -3,8 +3,8 @@
 #include <PrismAngleLib.h>
 
 extern "C" JNIEXPORT jint JNICALL 
-Java_org_prismatic_kotlinangle_AngleNative_testCallingAngle(JNIEnv *env, jobject obj) {
-    auto* ctx = new PrismAngleLib();
+Java_org_prismatic_kotlinangle_AngleNative_testCallingAngle(JNIEnv *env, jobject obj, jlong windowHandle) {
+    auto* ctx = new PrismAngleLib(windowHandle);
     int result = ctx->testCallingAngle();
     delete ctx;
     return result;
@@ -12,9 +12,10 @@ Java_org_prismatic_kotlinangle_AngleNative_testCallingAngle(JNIEnv *env, jobject
 
 extern "C" JNIEXPORT jlong JNICALL Java_org_prismatic_kotlinangle_AngleNative_createPrismAngle(
     JNIEnv *env, 
-    jobject obj
+    jobject obj,
+    jlong windowHandle
     ) {
-        auto* ctx = new PrismAngleLib();
+        auto* ctx = new PrismAngleLib(windowHandle);
         return (jlong) ctx;
     }
 

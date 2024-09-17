@@ -9,10 +9,10 @@ extern "C" {
 #endif
 
 JNIEXPORT jint JNICALL Java_org_prismatic_kotlinangle_AngleNative_testCallingAngle
-  (JNIEnv *, jobject);
+  (JNIEnv *, jobject, jlong);
 
 JNIEXPORT jlong JNICALL Java_org_prismatic_kotlinangle_AngleNative_createPrismAngle
-  (JNIEnv *, jobject);
+  (JNIEnv *, jobject, jlong);
 
 JNIEXPORT jlong JNICALL Java_org_prismatic_kotlinangle_AngleNative_fillScreenRGBAngle
   (JNIEnv *, jobject, jlong, jfloat, jfloat, jfloat);

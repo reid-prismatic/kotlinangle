@@ -7,12 +7,13 @@ import org.prismatic.kotlinangle.opuscopy.renderer.OpusRenderer
 import org.prismatic.kotlinangle.opuscopy.renderer.OpusRendererImpl
 
 @Composable
-fun OpusView(player: OpusPlayer, modifier: Modifier = Modifier) {
+fun OpusView(player: OpusPlayer, modifier: Modifier = Modifier, windowHandle: Long = 0) {
 	if (player !is OpusPlayerImpl) return
 
 	PlatformOpusView(
 		treeFlow = player.treeFlow,
 		modifier = modifier,
+		windowHandle = windowHandle,
 		rendererFactory = { OpusRendererImpl() },
 	)
 }
@@ -21,6 +22,7 @@ fun OpusView(player: OpusPlayer, modifier: Modifier = Modifier) {
 internal expect fun PlatformOpusView(
 	treeFlow: StateFlow<OpusTree>,
 	modifier: Modifier = Modifier,
-	rendererFactory: () -> OpusRenderer,
+	windowHandle: Long = 0,
+	rendererFactory: () -> OpusRenderer
 )
 

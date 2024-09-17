@@ -10,7 +10,7 @@
 
 class PrismAngleLib {
 public:
-    explicit PrismAngleLib();
+    explicit PrismAngleLib(long windowHandle);
     virtual ~PrismAngleLib();
 
     int fillScreenRGBAngle(float red, float green, float blue);
@@ -20,7 +20,7 @@ public:
 private:
     GLuint LoadShader(GLenum type, const char *shaderSrc);
 
-    int initAngle();
+    int initAngle(long windowHandle);
 
     EGLDisplay display;
     EGLContext context;

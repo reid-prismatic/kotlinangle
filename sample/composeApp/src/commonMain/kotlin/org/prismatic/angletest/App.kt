@@ -27,28 +27,28 @@ import org.prismatic.opus.visualrender.VisualRender
 
 @Composable
 @Preview
-fun App() {
+fun App(windowHandle: Long = 0) {
 	MaterialTheme {
 		Column {
-			Box(
-				Modifier
-					.padding(50.dp)
-					.height(500.dp)
-			) {
-				val color = Color.Blue
-				val angle = remember { getAngleWrapper() }
-
-				val opus = remember {
-					org.prismatic.opus.Opus {
-						VisualRender {
-							onRender {
-								angle.fillScreenRGB(color.red, color.green, color.blue)
-							}
-						}
-					}
-				}
-				org.prismatic.opus.OpusView(opus, Modifier.fillMaxWidth().height(400.dp))
-			}
+//			Box(
+//				Modifier
+//					.padding(50.dp)
+//					.height(500.dp)
+//			) {
+//				val color = Color.Blue
+//				val angle = remember { getAngleWrapper() }
+//
+//				val opus = remember {
+//					org.prismatic.opus.Opus {
+//						VisualRender {
+//							onRender {
+//								angle.fillScreenRGB(color.red, color.green, color.blue)
+//							}
+//						}
+//					}
+//				}
+//				org.prismatic.opus.OpusView(opus, Modifier.fillMaxWidth().height(400.dp))
+//			}
 
 
 			Box(Modifier
@@ -68,7 +68,7 @@ fun App() {
 					}
 				}
 				val opusPlayer = rememberOpusPlayer(opus)
-				OpusView(opusPlayer, Modifier.fillMaxWidth().height(400.dp))
+				OpusView(opusPlayer, Modifier.fillMaxWidth().height(400.dp), windowHandle)
 			}
 		}
 	}

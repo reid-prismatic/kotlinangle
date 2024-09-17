@@ -9,6 +9,6 @@ fun main() = application {
         onCloseRequest = ::exitApplication,
         title = "KotlinAngle",
     ) {
-        App()
+        App(window.windowHandle)
     }
 }

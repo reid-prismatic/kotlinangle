@@ -9,6 +9,7 @@ import org.prismatic.kotlinangle.opuscopy.renderer.OpusRenderer
 internal actual fun PlatformOpusView(
 	treeFlow: StateFlow<OpusTree>,
 	modifier: Modifier,
+	windowHandle: Long,
 	rendererFactory: () -> OpusRenderer
 ) {
 }

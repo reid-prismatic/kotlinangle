@@ -9,6 +9,8 @@ interface AngleWrapper {
 
 	fun fillScreenRGB(red: Float, green: Float, blue: Float): Int
 
+	fun setCurrent(): Int
+
 	fun glActiveTexture(texture: Int)
 
 	fun glAttachShader(program: Int, shader: Int)
@@ -1379,4 +1381,4 @@ interface AngleWrapper {
 }
 
 
-expect fun getAngleWrapper(): AngleWrapper
+expect fun getAngleWrapper(windowHandle: Long = 0): AngleWrapper
