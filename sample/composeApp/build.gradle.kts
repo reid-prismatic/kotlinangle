@@ -38,7 +38,13 @@ kotlin {
     }
     
     jvm("desktop")
-    macosArm64("macOS")
+    macosArm64("macOS") {
+        binaries {
+            executable {
+                entryPoint = "main" // Set your main function entry point here
+            }
+        }
+    }
     
     listOf(
         iosX64(),
@@ -78,7 +84,12 @@ kotlin {
             implementation(libs.kotlinx.coroutines.swing)
         }
 
-        val macOSMain by getting
+        val macOSMain by getting {
+            dependencies {
+                implementation(compose.ui)
+                implementation(compose.material)
+            }
+        }
     }
 }
 
@@ -128,5 +139,13 @@ compose.desktop {
             packageName = "org.prismatic.kotlinangle"
             packageVersion = "1.0.0"
         }
+    }
+}
+
+tasks {
+    val runMacOSApp by registering(Exec::class) {
+        dependsOn("linkReleaseExecutableMacOS")
+        val executableFile = buildDir.resolve("bin/macosArm64/releaseExecutable/macos.kexe")
+        commandLine(executableFile.absolutePath)
     }
 }

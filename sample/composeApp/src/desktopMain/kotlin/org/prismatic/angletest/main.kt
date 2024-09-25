@@ -16,6 +16,8 @@ fun main() = application {
         onCloseRequest = ::exitApplication,
         title = "KotlinAngle",
     ) {
+        val name = System.getProperty("os.name")
+        println(name)
         App(window.windowHandle)
     }
 }

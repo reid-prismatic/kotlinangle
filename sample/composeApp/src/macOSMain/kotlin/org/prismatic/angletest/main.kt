@@ -1,24 +1,51 @@
+@file:Suppress("OPT_IN_USAGE_FUTURE_ERROR")
+
 package org.prismatic.angletest
 
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.remember
-import androidx.compose.ui.window.Window
-import androidx.compose.ui.window.application
-//import org.prismatic.angletest.App
-//import platfrom.
-//import platform.AppKit.NSWindow
+import kotlinx.cinterop.*
+import platform.AppKit.*
+import platform.Foundation.*
+import platform.darwin.NSObject
 
-//import org.jetbrains.skiko.HardwareLayer
-import org.jetbrains.skiko.SkiaLayer
 
-fun main() = application {
-    Window(
-        onCloseRequest = ::exitApplication,
-        title = "KotlinAngle",
-    ) {
-        App(window.windowHandle)
+@OptIn(ExperimentalForeignApi::class)
+fun main() {
+    val app = NSApplication.sharedApplication()
+    app.setActivationPolicy(NSApplicationActivationPolicy.NSApplicationActivationPolicyRegular)
+
+    memScoped {
+        val delegate = object : NSObject(), NSApplicationDelegateProtocol {
+            override fun applicationDidFinishLaunching(notification: NSNotification) {
+                val window = createWindow()
+                window.makeKeyAndOrderFront(null)
+                app.activateIgnoringOtherApps(true)
+            }
+        }
+        app.delegate = delegate
+        app.run()
     }
 }
+
+@OptIn(ExperimentalForeignApi::class)
+fun createWindow(): NSWindow {
+    val window = NSWindow(
+        contentRect = NSMakeRect(0.0, 0.0, 800.0, 600.0),
+        styleMask = NSWindowStyleMaskTitled or NSWindowStyleMaskClosable or NSWindowStyleMaskResizable,
+        backing = NSBackingStoreBuffered,
+        defer = false
+    )
+}
+
+//fun main() = application {
+//    Window(
+//        onCloseRequest = ::exitApplication,
+//        title = "KotlinAngle",
+//    ) {
+//        //val name = System.getProperty("os.name")
+//        //println(name)
+//        App(window.windowHandle)
+//    }
+//}
 
 //// Platform-specific wrapper for NSView
 //@Composable

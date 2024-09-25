@@ -85,7 +85,15 @@ kotlin {
             implementation(files("libs/jogl-all.jar"))
         }
 
-        val macOSMain by getting
+        val macOSMain by getting {
+            dependencies {
+//                implementation(compose.desktop.currentOs)
+//                implementation(libs.kotlinx.coroutines.swing)
+
+                implementation(files("libs/gluegen-rt.jar"))
+                implementation(files("libs/jogl-all.jar"))
+            }
+        }
     }
 }
 

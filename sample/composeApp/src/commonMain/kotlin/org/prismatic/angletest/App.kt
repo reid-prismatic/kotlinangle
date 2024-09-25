@@ -19,7 +19,7 @@ import org.prismatic.kotlinangle.opuscopy.rememberOpusPlayer
 
 import org.prismatic.kotlinangle.AngleWrapper
 import org.prismatic.kotlinangle.getAngleWrapper
-import org.prismatic.opus.visualrender.VisualRender
+//import org.prismatic.opus.visualrender.VisualRender
 
 //import org.prismatic.opus.Opus
 //import org.prismatic.opus.OpusView
