@@ -1,29 +1,49 @@
 package org.prismatic.kotlinangle.OpusBuffer
 
-import java.nio.IntBuffer
+import kotlinx.cinterop.*
+import platform.posix.*
 
-actual class OpusIntBuffer(private val intBuffer: IntBuffer) : OpusBuffer(intBuffer) {
+actual class OpusIntBuffer(private val intArray: IntArray) : OpusBuffer(intArray) {
+	private var position: Int = 0
+
 	actual fun put(int: Int): OpusIntBuffer {
-		intBuffer.put(int)
+		if (position < intArray.size) {
+			intArray[position] = int
+			position++
+		} else {
+			throw IndexOutOfBoundsException("Buffer overflow")
+		}
 		return this
 	}
 
-	actual fun get(): Int = intBuffer.get()
-
-	actual fun get(index: Int): Int = intBuffer.get(index)
-
-	actual fun array(): IntArray = intBuffer.array()
-
-	actual companion object {
-		actual fun allocate(capacity: Int): OpusIntBuffer {
-			return OpusIntBuffer(IntBuffer.allocate(capacity))
-		}
-
-		actual fun wrap(array: IntArray): OpusIntBuffer {
-			return OpusIntBuffer(IntBuffer.wrap(array))
+	actual fun get(): Int {
+		if (position < intArray.size) {
+			return intArray[position++]
+		} else {
+			throw IndexOutOfBoundsException("Buffer underflow")
 		}
 	}
 
-	override val buf: IntBuffer
-		get() = intBuffer
+	actual fun get(index: Int): Int {
+		if (index in intArray.indices) {
+			return intArray[index]
+		} else {
+			throw IndexOutOfBoundsException("Index out of bounds")
+		}
+	}
+
+	actual fun array(): IntArray = intArray
+
+	actual companion object {
+		actual fun allocate(capacity: Int): OpusIntBuffer {
+			return OpusIntBuffer(IntArray(capacity))
+		}
+
+		actual fun wrap(array: IntArray): OpusIntBuffer {
+			return OpusIntBuffer(array)
+		}
+	}
+
+	override val buf: IntArray
+		get() = intArray
 }

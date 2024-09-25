@@ -6,8 +6,6 @@ import org.prismatic.kotlinangle.OpusBuffer.OpusBuffer
 import org.prismatic.kotlinangle.OpusBuffer.OpusByteBuffer
 import org.prismatic.kotlinangle.OpusBuffer.OpusFloatBuffer
 import org.prismatic.kotlinangle.OpusBuffer.OpusIntBuffer
-import java.io.File
-import java.nio.ByteBuffer
 
 //import java.nio.Buffer
 //import java.nio.ByteBuffer
@@ -17,24 +15,24 @@ import java.nio.ByteBuffer
 
 class AngleNative(val windowHandle: Long): AngleWrapper {
 	init {
-		try {
-//			val info = DynamicLibraryBundleInfoz
-//			val lib = DynamicLibraryBundle()
-			val baseDir = System.getProperty("user.dir")
-			val dylibPath =
-				"$baseDir/../../kotlinangle/build/libs/libPrismAngleLibrary.dylib"
-			println("Attempting to load .dylib from: $dylibPath")
-			val dylibFile = File(dylibPath)
-			if (dylibFile.exists()) {
-				System.load(dylibPath)
-			} else {
-				throw UnsatisfiedLinkError("Library not found at: $dylibPath")
-			}
-			// System.loadLibrary("PrismAngleLibrary");
-		} catch (e: Exception) {
-			e.printStackTrace()
-			throw e
-		}
+//		try {
+////			val info = DynamicLibraryBundleInfoz
+////			val lib = DynamicLibraryBundle()
+//			val baseDir = System.getProperty("user.dir")
+//			val dylibPath =
+//				"$baseDir/../../kotlinangle/build/libs/libPrismAngleLibrary.dylib"
+//			println("Attempting to load .dylib from: $dylibPath")
+//			val dylibFile = File(dylibPath)
+//			if (dylibFile.exists()) {
+//				System.load(dylibPath)
+//			} else {
+//				throw UnsatisfiedLinkError("Library not found at: $dylibPath")
+//			}
+//			// System.loadLibrary("PrismAngleLibrary");
+//		} catch (e: Exception) {
+//			e.printStackTrace()
+//			throw e
+//		}
 	}
 
 	/** Interface to C language function: <br></br> `void glActiveTexture(GLenum texture)`<br></br>    */
@@ -47,19 +45,20 @@ class AngleNative(val windowHandle: Long): AngleWrapper {
 	 * @param name a direct or array-backed [java.nio.ByteBuffer]
 	 */
 	override fun glBindAttribLocation(program: Int, index: Int, name: OpusByteBuffer?) {
-		val name_is_direct: Boolean = Buffers.isDirect(name?.buf)
-		glBindAttribLocation1(
-			program,
-			index,
-			if (name_is_direct) name?.buf else Buffers.getArray(name?.buf),
-			if (name_is_direct) Buffers.getDirectBufferByteOffset(name?.buf) else Buffers.getIndirectBufferByteOffset(
-				name?.buf
-			),
-			name_is_direct
-		)
+		val nameBuffer = name?.buf
+		if (nameBuffer != null) {
+			val name_is_direct: Boolean = Buffers.isDirect(nameBuffer)
+			glBindAttribLocation1(
+				program,
+				index,
+				if (name_is_direct) nameBuffer else Buffers.getArray(nameBuffer),
+				if (name_is_direct) Buffers.getDirectBufferByteOffset(nameBuffer) else Buffers.getIndirectBufferByteOffset(nameBuffer),
+				name_is_direct
+			)
+		}
 	}
 
-	/** Entry point to C language function: `void glBi`ndAttribLocation(GLuint program, GLuint index, const GLchar *  name)`<br></br>
+	/** Entry point to C language function: `void glBindAttribLocation(GLuint program, GLuint index, const GLchar *  name)`<br></br>
 	 * @param name a direct or array-backed [java.nio.ByteBuffer]
 	 */
 	private external fun glBindAttribLocation1(
@@ -71,13 +70,10 @@ class AngleNative(val windowHandle: Long): AngleWrapper {
 	)
 
 	/** Interface to C language function: <br></br> `void glBindAttribLocation(GLuint program, GLuint index, const GLchar *  name)`<br></br>    */
-	override fun glBindAttribLocation(
-		program: Int,
-		index: Int,
-		name: ByteArray?,
-		name_offset: Int
-	) {
-		if (name != null && name.size <= name_offset) throw RuntimeException("array offset argument \"name_offset\" (" + name_offset + ") equals or exceeds array length (" + name.size + ")")
+	override fun glBindAttribLocation(program: Int, index: Int, name: ByteArray?, name_offset: Int) {
+		if (name != null && name.size <= name_offset) {
+			throw RuntimeException("array offset argument \"name_offset\" ($name_offset) equals or exceeds array length (${name.size})")
+		}
 		glBindAttribLocation1(program, index, name, name_offset, false)
 	}
 
@@ -413,11 +409,7 @@ class AngleNative(val windowHandle: Long): AngleWrapper {
 	)
 
 	/** Interface to C language function: <br></br> `void glDeleteRenderbuffers(GLsizei n, const GLuint *  renderbuffers)`<br></br>    */
-	override fun glDeleteRenderbuffers(
-		n: Int,
-		renderbuffers: IntArray?,
-		renderbuffers_offset: Int
-	) {
+	override fun glDeleteRenderbuffers(n: Int, renderbuffers: IntArray?, renderbuffers_offset: Int) {
 		if (renderbuffers != null && renderbuffers.size <= renderbuffers_offset) throw RuntimeException(
 			"array offset argument \"renderbuffers_offset\" (" + renderbuffers_offset + ") equals or exceeds array length (" + renderbuffers.size + ")"
 		)
@@ -891,12 +883,7 @@ class AngleNative(val windowHandle: Long): AngleWrapper {
 	 * @param count a direct or array-backed [java.nio.IntBuffer]
 	 * @param shaders a direct or array-backed [java.nio.IntBuffer]
 	 */
-	override fun glGetAttachedShaders(
-		program: Int,
-		maxCount: Int,
-		count: OpusIntBuffer?,
-		shaders: OpusIntBuffer?
-	) {
+	override fun glGetAttachedShaders(program: Int, maxCount: Int, count: OpusIntBuffer?, shaders: OpusIntBuffer?) {
 		val count_is_direct: Boolean = Buffers.isDirect(count?.buf)
 		val shaders_is_direct: Boolean = Buffers.isDirect(shaders?.buf)
 		glGetAttachedShaders1(
@@ -1043,12 +1030,7 @@ class AngleNative(val windowHandle: Long): AngleWrapper {
 	)
 
 	/** Interface to C language function: <br></br> `void glGetBufferParameteriv(GLenum target, GLenum pname, GLint *  params)`<br></br>    */
-	override fun glGetBufferParameteriv(
-		target: Int,
-		pname: Int,
-		params: IntArray?,
-		params_offset: Int
-	) {
+	override fun glGetBufferParameteriv(target: Int, pname: Int, params: IntArray?, params_offset: Int) {
 		if (params != null && params.size <= params_offset) throw RuntimeException("array offset argument \"params_offset\" (" + params_offset + ") equals or exceeds array length (" + params.size + ")")
 		glGetBufferParameteriv1(target, pname, params, Buffers.SIZEOF_INT * params_offset, false)
 	}
@@ -1208,12 +1190,7 @@ class AngleNative(val windowHandle: Long): AngleWrapper {
 	 * @param length a direct or array-backed [java.nio.IntBuffer]
 	 * @param infoLog a direct or array-backed [java.nio.ByteBuffer]
 	 */
-	override fun glGetProgramInfoLog(
-		program: Int,
-		bufSize: Int,
-		length: OpusIntBuffer?,
-		infoLog: OpusByteBuffer?
-	) {
+	override fun glGetProgramInfoLog(program: Int, bufSize: Int, length: OpusIntBuffer?, infoLog: OpusByteBuffer?) {
 		val length_is_direct: Boolean = Buffers.isDirect(length?.buf)
 		val infoLog_is_direct: Boolean = Buffers.isDirect(infoLog?.buf)
 		glGetProgramInfoLog1(
@@ -1231,7 +1208,6 @@ class AngleNative(val windowHandle: Long): AngleWrapper {
 			infoLog_is_direct
 		)
 	}
-}
 
 	/** Entry point to C language function: `void glGetProgramInfoLog(GLuint program, GLsizei bufSize, GLsizei *  length, GLchar *  infoLog)`<br></br>
 	 * @param length a direct or array-backed [java.nio.IntBuffer]

@@ -1,29 +1,49 @@
 package org.prismatic.kotlinangle.OpusBuffer
 
-import java.nio.FloatBuffer
+import kotlinx.cinterop.*
+import platform.posix.*
 
-actual class OpusFloatBuffer(private val floatBuffer: FloatBuffer) : OpusBuffer(floatBuffer) {
+actual class OpusFloatBuffer(private val floatArray: FloatArray) : OpusBuffer(floatArray) {
+	private var position: Int = 0
+
 	actual fun put(float: Float): OpusFloatBuffer {
-		floatBuffer.put(float)
+		if (position < floatArray.size) {
+			floatArray[position] = float
+			position++
+		} else {
+			throw IndexOutOfBoundsException("Buffer overflow")
+		}
 		return this
 	}
 
-	actual fun get(): Float = floatBuffer.get()
-
-	actual fun get(index: Int): Float = floatBuffer.get(index)
-
-	actual fun array(): FloatArray = floatBuffer.array()
-
-	actual companion object {
-		actual fun allocate(capacity: Int): OpusFloatBuffer {
-			return OpusFloatBuffer(FloatBuffer.allocate(capacity))
-		}
-
-		actual fun wrap(array: FloatArray): OpusFloatBuffer {
-			return OpusFloatBuffer(FloatBuffer.wrap(array))
+	actual fun get(): Float {
+		if (position < floatArray.size) {
+			return floatArray[position++]
+		} else {
+			throw IndexOutOfBoundsException("Buffer underflow")
 		}
 	}
 
-	override val buf: FloatBuffer
-		get() = floatBuffer
+	actual fun get(index: Int): Float {
+		if (index in floatArray.indices) {
+			return floatArray[index]
+		} else {
+			throw IndexOutOfBoundsException("Index out of bounds")
+		}
+	}
+
+	actual fun array(): FloatArray = floatArray
+
+	actual companion object {
+		actual fun allocate(capacity: Int): OpusFloatBuffer {
+			return OpusFloatBuffer(FloatArray(capacity))
+		}
+
+		actual fun wrap(array: FloatArray): OpusFloatBuffer {
+			return OpusFloatBuffer(array)
+		}
+	}
+
+	override val buf: FloatArray
+		get() = floatArray
 }
