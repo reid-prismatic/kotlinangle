@@ -25,6 +25,7 @@ logback = "1.5.6"
 prismatic-mokpan = "0.0.5"
 prismatic-opus = "0.0.2"
 prismatic-opusmath = "0.0.6"
+uiDesktop = "1.7.0"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
@@ -52,6 +53,7 @@ kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serializa
 prismatic-mokpan = { module = "org.prismatic.mokpan:mokpan", version.ref = "prismatic-mokpan" }
 prismatic-opus = { module = "org.prismatic.opus:opus", version.ref = "prismatic-opus" }
 prismatic-opusmath = { module = "org.prismatic.opus.math:opusmath", version.ref = "prismatic-opusmath" }
+androidx-ui-desktop = { group = "androidx.compose.ui", name = "ui-desktop", version.ref = "uiDesktop" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

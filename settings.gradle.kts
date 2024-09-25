@@ -40,6 +40,7 @@ dependencyResolutionManagement {
                 password = settings.extra.properties["gpr.key"] as String? ?: System.getenv("TOKEN")
             }
         }
+        mavenLocal()
     }
 }
 
@@ -47,3 +48,4 @@ include(":sample:composeApp")
 include(":sample:server")
 include(":sample:shared")
 include(":kotlinangle")
+

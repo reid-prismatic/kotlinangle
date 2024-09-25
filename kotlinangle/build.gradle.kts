@@ -39,6 +39,8 @@ kotlin {
     }
     
     jvm("desktop")
+    macosArm64("macOS")
+
     
     listOf(
         iosX64(),
@@ -72,7 +74,9 @@ kotlin {
             implementation(libs.kotlinx.coroutines.core)
             implementation("org.jetbrains.kotlinx:kotlinx-io-core:0.5.2")
             implementation("org.jetbrains.kotlinx:kotlinx-collections-immutable:0.3.7")
-            api("org.prismatic.opus.math:opusmath:0.0.12")
+            //api("org.prismatic.opus.math:opusmath:0.0.12")
+            api("org.prismatic.opus.math:opusmath:0.0.001")
+
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
@@ -80,6 +84,8 @@ kotlin {
             implementation(files("libs/gluegen-rt.jar"))
             implementation(files("libs/jogl-all.jar"))
         }
+
+        val macOSMain by getting
     }
 }
 

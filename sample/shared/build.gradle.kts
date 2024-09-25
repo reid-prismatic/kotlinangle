@@ -36,11 +36,14 @@ kotlin {
     iosSimulatorArm64()
     
     jvm()
+    macosArm64("macOS")
+
     
     sourceSets {
         commonMain.dependencies {
             // put your Multiplatform dependencies here
         }
+        val macOSMain by getting
     }
 }
 

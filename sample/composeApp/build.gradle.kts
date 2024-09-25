@@ -38,6 +38,7 @@ kotlin {
     }
     
     jvm("desktop")
+    macosArm64("macOS")
     
     listOf(
         iosX64(),
@@ -68,13 +69,16 @@ kotlin {
             implementation(libs.androidx.lifecycle.runtime.compose)
             implementation(projects.sample.shared)
             implementation(project(":kotlinangle"))
-            implementation(libs.prismatic.opus)
-            implementation(libs.prismatic.opusmath)
+            //implementation(libs.prismatic.opus)
+            implementation("org.prismatic.opus.math:opusmath:0.0.001")
+            //implementation(libs.prismatic.opusmath)
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
             implementation(libs.kotlinx.coroutines.swing)
         }
+
+        val macOSMain by getting
     }
 }
 

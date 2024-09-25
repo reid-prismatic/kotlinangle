@@ -1,6 +1,7 @@
 package org.prismatic.kotlinangle.opuscopy
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
@@ -67,7 +68,7 @@ private fun AngleView(modifier: Modifier, treeFlow: StateFlow<OpusTree>, windowH
 
 	//Box(modifier.onGloballyPositioned { angle.setPosition(it.positionInRoot(), it.size) }) {
 	Box(modifier) {
-
+		Text("DesktopMain")
 	}
 }
 
